@@ -1,7 +1,74 @@
 baseURL = 'https://martijnv.com/'
 languageCode = 'en-us'
-title = "Martijns personal site"
+defaultContentLanguage = "en-gb" # so dates are formatted correctly
+title = "Martijn's blog"
 
 [module]
   [[module.imports]]
     path = "github.com/hugo-sid/hugo-blog-awesome"
+
+# Enable emojis globally
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"] # ignore error of loading additional scripts.
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true
+	[markup.tableOfContents]
+		startLevel = 1 # ToC starts from H2
+		endLevel = 6 # ToC ends at H4
+		ordered = false # generates <ul> instead of <ol>
+
+[menu]
+[[menu.main]]
+  # The page reference (pageRef) is useful for menu highlighting
+  # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+  pageRef="/"
+  name = 'Home'
+  url = '/'
+  weight = 10
+[[menu.main]]
+  pageRef="posts"
+  name = 'Posts'
+  url = '/posts/'
+  weight = 20
+# [[menu.main]]
+#   pageRef="about"
+#   name = 'About'
+#   url = '/about/'
+#   weight = 30
+
+[params]
+  sitename = "Martijn's personal blog"
+  defaultColor = "auto" # set color mode: dark, light, auto
+  description = "Hello there! This is my personal website, here you will see some blogs about my personal projects and other tech related stuff."
+  mainSections = ['posts']
+  toc = false # set to false to disable table of contents 'globally'
+  tocOpen = false # set to true to open table of contents by default
+  goToTop = false # set to false to disable 'go to top' button
+  rssFeedDescription = "full" # available options: 1) summary 2) full
+
+[params.author]
+  avatar = "" # put the file in assets folder; also ensure that image has same height and width
+  intro = "Martijn's personal blog"
+  name = "Martijn Voordouw"
+  description = "Hello there! This is my personal website, here you will see some blogs about my personal projects and other tech related stuff."
+
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/MartV0"
+
+[[params.socialIcons]]
+name = "mastodon"
+url = "https://mastodon.social/@martv"
+
+[[params.socialIcons]]
+name = "Rss"
+url = "https://martijnv.com/index.xml"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/martijn-voordouw-393436253/"
