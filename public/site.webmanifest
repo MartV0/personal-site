@@ -1,7 +1,7 @@
 {
-    "name": "My New Hugo Site",
-    "short_name": "My New Hugo Site",
-    "start_url": "http://localhost:1313/",
+    "name": "Martijns personal site",
+    "short_name": "Martijns personal site",
+    "start_url": "https://martijnv.com/",
     "theme_color": "#434648",
     "background_color": "#ffffff",
     "display": "standalone",

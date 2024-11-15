@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/hello-internet/</loc>
-    <lastmod>2024-11-15T17:53:54+01:00</lastmod>
+    <loc>https://martijnv.com/posts/hello-internet/</loc>
+    <lastmod>2024-11-15T19:25:54+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2024-11-15T17:53:54+01:00</lastmod>
+    <loc>https://martijnv.com/</loc>
+    <lastmod>2024-11-15T19:25:54+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2024-11-15T17:53:54+01:00</lastmod>
+    <loc>https://martijnv.com/posts/</loc>
+    <lastmod>2024-11-15T19:25:54+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://martijnv.com/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://martijnv.com/tags/</loc>
   </url>
 </urlset>
