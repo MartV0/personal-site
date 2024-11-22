@@ -16,7 +16,9 @@
       
       <description>&lt;h1 id=&#34;hello-internet&#34;&gt;Hello internet!&lt;/h1&gt;
 &lt;p&gt;This website was created using hugo. It is hosted on a raspberry pi running on
-nixos, it&amp;rsquo;s entirely declaritive!&lt;/p&gt;
+nixos, it&amp;rsquo;s entirely declaritive! Have a look at the source code for the static
+over here: &lt;a href=&#34;https://github.com/MartV0/personal-site&#34;&gt;https://github.com/MartV0/personal-site&lt;/a&gt; . The nix source code will
+be uploaded on my github at some time too!&lt;/p&gt;
 </description>
       
     </item>

@@ -7,4 +7,6 @@ draft = false
 # Hello internet!
 
 This website was created using hugo. It is hosted on a raspberry pi running on
-nixos, it's entirely declaritive!
+nixos, it's entirely declaritive! Have a look at the source code for the static
+over here: https://github.com/MartV0/personal-site . The nix source code will
+be uploaded on my github at some time too!
