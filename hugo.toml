@@ -9,7 +9,7 @@ title = "Martijn's blog"
 
 # Enable emojis globally
 enableEmoji = true
-ignoreErrors = ["additional-script-loading-error"] # ignore error of loading additional scripts.
+#ignoreErrors = ["additional-script-loading-error"] # ignore error of loading additional scripts.
 
 [markup]
   [markup.highlight]
@@ -34,6 +34,11 @@ ignoreErrors = ["additional-script-loading-error"] # ignore error of loading add
   name = 'Posts'
   url = '/posts/'
   weight = 20
+[[menu.main]]
+  pageRef="projects"
+  name = 'Projects'
+  url = '/projects/'
+  weight = 15
 # [[menu.main]]
 #   pageRef="about"
 #   name = 'About'
@@ -44,7 +49,7 @@ ignoreErrors = ["additional-script-loading-error"] # ignore error of loading add
   sitename = "Martijn's personal blog"
   defaultColor = "auto" # set color mode: dark, light, auto
   description = "Hello there! This is my personal website, here you will see some blogs about my personal projects and other tech related stuff."
-  mainSections = ['posts']
+  mainSections = ['posts', 'projects' ]
   toc = false # set to false to disable table of contents 'globally'
   tocOpen = false # set to true to open table of contents by default
   goToTop = false # set to false to disable 'go to top' button
