@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-us"><head><meta charset="utf-8">
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title itemprop="name">Hello Internet! | Martijn&#39;s blog</title>
-<meta property="og:title" content="Hello Internet! | Martijn&#39;s blog" />
-<meta name="twitter:title" content="Hello Internet! | Martijn&#39;s blog" />
-<meta itemprop="name" content="Hello Internet! | Martijn&#39;s blog" />
-<meta name="application-name" content="Hello Internet! | Martijn&#39;s blog" />
+<title itemprop="name">How variable sized arrays work: non-fixed size data on the stack. | Martijn&#39;s blog</title>
+<meta property="og:title" content="How variable sized arrays work: non-fixed size data on the stack. | Martijn&#39;s blog" />
+<meta name="twitter:title" content="How variable sized arrays work: non-fixed size data on the stack. | Martijn&#39;s blog" />
+<meta itemprop="name" content="How variable sized arrays work: non-fixed size data on the stack. | Martijn&#39;s blog" />
+<meta name="application-name" content="How variable sized arrays work: non-fixed size data on the stack. | Martijn&#39;s blog" />
 <meta property="og:site_name" content="Martijn&#39;s personal blog" />
 
 <meta name="description" content="Hello there! This is my personal website, here you will see some blogs about my personal projects and other tech related stuff.">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en-us" />
 <meta name="language" content="en-us" />
 
-  <link rel="alternate" hreflang="en-gb" href="https://martijnv.com/posts/hello-internet/" title="" />
+  <link rel="alternate" hreflang="en-gb" href="http://localhost:1313/posts/variable_sized_on_stack/" title="" />
 
 
 
@@ -29,9 +29,9 @@
     
 
     <meta property="og:type" content="article" />
-    <meta property="og:article:published_time" content=2024-11-15T19:25:54&#43;0100 />
-    <meta property="article:published_time" content=2024-11-15T19:25:54&#43;0100 />
-    <meta property="og:url" content="https://martijnv.com/posts/hello-internet/" />
+    <meta property="og:article:published_time" content=2025-02-07T20:57:52&#43;0100 />
+    <meta property="article:published_time" content=2025-02-07T20:57:52&#43;0100 />
+    <meta property="og:url" content="http://localhost:1313/posts/variable_sized_on_stack/" />
 
     
     <meta property="og:article:author" content="Martijn Voordouw" />
@@ -46,16 +46,16 @@
     {
         "@context": "http://schema.org",
         "@type": "Article",
-        "headline": "Hello Internet!",
+        "headline": "How variable sized arrays work: non-fixed size data on the stack.",
         "author": {
         "@type": "Person",
         "name": ""
         },
-        "datePublished": "2024-11-15",
+        "datePublished": "2025-02-07",
         "description": "",
-        "wordCount":  44 ,
+        "wordCount":  167 ,
         "mainEntityOfPage": "True",
-        "dateModified": "2024-11-15",
+        "dateModified": "2025-02-07",
         "image": {
         "@type": "imageObject",
         "url": ""
@@ -71,27 +71,29 @@
 <meta name="generator" content="Hugo 0.131.0">
 
     
-    <meta property="og:url" content="https://martijnv.com/posts/hello-internet/">
+    <meta property="og:url" content="http://localhost:1313/posts/variable_sized_on_stack/">
   <meta property="og:site_name" content="Martijn&#39;s blog">
-  <meta property="og:title" content="Hello Internet!">
-  <meta property="og:description" content="Hello internet! This website was created using hugo. It is hosted on a nuc running on nixos, it’s entirely declaritive! Have a look at the source code for the static part of the site over here: https://github.com/MartV0/personal-site, and the nix source code here: https://github.com/MartV0/homelab/.">
+  <meta property="og:title" content="How variable sized arrays work: non-fixed size data on the stack.">
+  <meta property="og:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an adress on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+&lt;– rsp, growing stack pointer local_var3 local_var2 local_var1 &lt;– rbp, the stack frame Adressing these local variables can be done using a single instruction, and thus is very fast.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-11-15T19:25:54+01:00">
-    <meta property="article:modified_time" content="2024-11-15T19:25:54+01:00">
+    <meta property="article:published_time" content="2025-02-07T20:57:52+01:00">
+    <meta property="article:modified_time" content="2025-02-07T20:57:52+01:00">
 
 
     
     
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Hello Internet!">
-  <meta name="twitter:description" content="Hello internet! This website was created using hugo. It is hosted on a nuc running on nixos, it’s entirely declaritive! Have a look at the source code for the static part of the site over here: https://github.com/MartV0/personal-site, and the nix source code here: https://github.com/MartV0/homelab/.">
+  <meta name="twitter:title" content="How variable sized arrays work: non-fixed size data on the stack.">
+  <meta name="twitter:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an adress on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+&lt;– rsp, growing stack pointer local_var3 local_var2 local_var1 &lt;– rbp, the stack frame Adressing these local variables can be done using a single instruction, and thus is very fast.">
 
 
     
 
-    <link rel="canonical" href="https://martijnv.com/posts/hello-internet/">
+    <link rel="canonical" href="http://localhost:1313/posts/variable_sized_on_stack/">
     <link href="/style.min.e390ba7da26222f4dc42a349955d76dbbe44e5ce2535a43de5a70633a0a9ec3c.css" rel="stylesheet">
     <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
 
@@ -105,7 +107,7 @@
 
 
 
-<link rel="manifest" href="https://martijnv.com/site.webmanifest">
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
 
 <meta name="msapplication-config" content="/browserconfig.xml">
 <meta name="msapplication-TileColor" content="#2d89ef">
@@ -116,18 +118,14 @@
 
     
     
-  
-
-
-    
 </head>
 <body data-theme = "auto" class="notransition">
 
-<script src="/js/theme.min.8961c317c5b88b953fe27525839672c9343f1058ab044696ca225656c8ba2ab0.js" integrity="sha256-iWHDF8W4i5U/4nUlg5ZyyTQ/EFirBEaWyiJWVsi6KrA="></script>
+<script src="/js/theme.js"></script>
 
 <div class="navbar" role="navigation">
     <nav class="menu" aria-label="Main Navigation">
-        <a href="https://martijnv.com/" class="logo">
+        <a href="http://localhost:1313/" class="logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
 stroke-linejoin="round" class="feather feather-home">
@@ -188,22 +186,69 @@ stroke-linejoin="round" class="feather feather-home">
     <main class="page-content" aria-label="Content">
         <article>
             <header class="header">
-                <h1 class="header-title">Hello Internet!</h1>
+                <h1 class="header-title">How variable sized arrays work: non-fixed size data on the stack.</h1>
                 
                 
                 
                 <div class="post-meta">
-                    <time datetime="2024-11-15T19:25:54&#43;01:00" itemprop="datePublished"> 15 Nov 2024 </time>
+                    <time datetime="2025-02-07T20:57:52&#43;01:00" itemprop="datePublished"> 7 Feb 2025 </time>
                 </div>
                 
             </header>
             
             <div class="page-content">
-                <h1 id="hello-internet">Hello internet!</h1>
-<p>This website was created using hugo. It is hosted on a nuc running on
-nixos, it&rsquo;s entirely declaritive! Have a look at the source code for the static
-part of the site over here: <a href="https://github.com/MartV0/personal-site">https://github.com/MartV0/personal-site</a>, and the nix source code here:
-<a href="https://github.com/MartV0/homelab/">https://github.com/MartV0/homelab/</a>.</p>
+                <p>Lets first give some background on why I wanted to create this post.
+Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
+easy. The <code>rbp</code> register stores a pointer to an adress on the stack, called the stack frame.
+A local variables are offset by some constant value relative to the stack frame.</p>
+<style>
+table tr th:empty {
+  display: none;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>&lt;&ndash; rsp, growing stack pointer</td>
+</tr>
+<tr>
+<td>local_var3</td>
+<td></td>
+</tr>
+<tr>
+<td>local_var2</td>
+<td></td>
+</tr>
+<tr>
+<td>local_var1</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;&ndash; rbp, the stack frame</td>
+</tr>
+</tbody>
+</table>
+<p>Adressing these local variables can be done using a single instruction, and thus
+is very fast.
+For example moving <code>local_var1</code> and <code>local_var3</code> into register and adding them
+can be done like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TASM" data-lang="TASM"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="o">%</span><span class="nv">r1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">(</span><span class="o">%</span><span class="nb">rbp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="o">%</span><span class="nv">r2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">(</span><span class="o">%</span><span class="nb">rbp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="o">%</span><span class="nv">r1</span><span class="p">,</span><span class="o">%</span><span class="nv">r2</span>
+</span></span></code></pre></div><h2 id="variable-sized-arrays-in-c">Variable sized arrays in C</h2>
+<p>Having heard in some places that variables are actually exclusively fixed size,
+I was left very confused after discovering variable sized arrays in C.
+Variable sized arrays can be created like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+</span></span></code></pre></div><p>This creates a local variable containing an array of size <code>n</code>, stored on the stack.</p>
 
             </div>
         </article></main>
@@ -266,7 +311,7 @@ part of the site over here: <a href="https://github.com/MartV0/personal-site">ht
 
 
     
-    <script src="https://martijnv.com/js/main.min.4ee188e1744c19816e95a540b2650ed9f033ea0371e74eac8e717355cfca8741.js" integrity="sha256-TuGI4XRMGYFulaVAsmUO2fAz6gNx506sjnFzVc/Kh0E="></script>
+    <script async src="http://localhost:1313/js/main.js" ></script>
 
     
 
