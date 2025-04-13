@@ -14,10 +14,10 @@
       
       <guid>https://martijnv.com/posts/variable_sized_on_stack/</guid>
       
-      <description>&lt;p&gt;Lets first give some background on why I wanted to create this post.
+      <description>&lt;p&gt;Let&amp;rsquo;s first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
 easy. The &lt;code&gt;rbp&lt;/code&gt; register stores a pointer to an address on the stack, called the stack frame.
-A local variables are offset by some constant value relative to the stack frame.&lt;/p&gt;
+Local variables are offset by some constant value relative to the stack frame.&lt;/p&gt;
 &lt;!--&lt;style&gt;--&gt;
 &lt;!--table tr th:empty {--&gt;
 &lt;!--  display: none;--&gt;
@@ -132,11 +132,11 @@ Indeed, treating it like any other fixed size local variable would not work.&lt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;blockquote&gt;
-&lt;p&gt;💡 Note that arrays are addressed upward, meaning as the index increases of
+&lt;p&gt;💡 Note that arrays are addressed upward, so as the index increases
 the memory address increases, so in the opposite direction to which the stack grows.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;How would we address &lt;code&gt;local_var2&lt;/code&gt; in this case?
-In this case we could simply do &lt;code&gt;rbp-6&lt;/code&gt;, however this would stop working once
+Here we could simply do &lt;code&gt;rbp-6&lt;/code&gt;. However, this would stop working once
 we create a different sized array.&lt;/p&gt;
 &lt;p&gt;To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.&lt;/p&gt;
 &lt;table&gt;
@@ -195,7 +195,7 @@ we create a different sized array.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;If we would now wanted to, for example, add &lt;code&gt;array_item1&lt;/code&gt; and &lt;code&gt;local_var2&lt;/code&gt; we could do it like this.&lt;/p&gt;
+&lt;p&gt;If we now wanted to, for example, add &lt;code&gt;array_item1&lt;/code&gt; and &lt;code&gt;local_var2&lt;/code&gt; we could do it like this.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-NASM&#34; data-lang=&#34;NASM&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;; move address of array_item1 into r1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;r1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;r1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;
@@ -210,7 +210,7 @@ we create a different sized array.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;in-practice&#34;&gt;In practice&lt;/h2&gt;
 &lt;p&gt;The above example is somewhat oversimplified, how it is actually done in practice
 is quite different.
-So lets have a look at how an actual compiler, compiles this simple c program:&lt;/p&gt;
+So let&amp;rsquo;s have a look at how an actual compiler, compiles this simple c program:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
@@ -230,7 +230,7 @@ So lets have a look at how an actual compiler, compiles this simple c program:&l
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It was compiled using gcc on a x86_64 machine:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It was compiled using gcc on an x86_64 machine:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; gcc var.c -O0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The general strategy goes like this: the fixed size variables are located at the
 start of the stack frame, along with an additional variable for each array storing
@@ -238,7 +238,7 @@ the starting position of the array.
 These variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of the stack,
 they can be addressed by using the additional variable.&lt;/p&gt;
-&lt;p&gt;Lets have a look at the what the array allocation compiles to.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s have a look at the what the array allocation compiles to.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;arr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We simply grow the stack by &lt;code&gt;size * 4&lt;/code&gt; as a single unsigned int is 4 bytes.
 There is just some extra fancy arithmetic
@@ -253,13 +253,13 @@ to assure the stack pointer stays 16-byte aligned.&lt;sup id=&#34;fnref:2&#34;&g
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401178:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;imul&lt;/span&gt;   &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x10&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; rax = rax * 16&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40117&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;c:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sub&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rsp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; grow stack by previously calculated size&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next we save the starting address of the array, which is on the newly allocated stack space.
-Once again we have same fancy arithmetic here, this time it simply rounding up
+Once again we have some fancy arithmetic here, this time it simply rounding up
 to the nearest 4 bytes, in order to make it 4 byte aligned.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-NASM&#34; data-lang=&#34;NASM&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40117&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;f:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rsp&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401182:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x3&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; rax = rsp + 3&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401186:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;shr&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; shift right by two, equivalent to dividing by 4&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40118&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;a:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;shl&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; shift left by two, equivalent to dividing by 4 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40118&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;e:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;QWORD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PTR&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; save adress on the stack&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40118&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;e:&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;QWORD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PTR&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; save address on the stack&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Our stack now looks like this:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -285,7 +285,7 @@ to the nearest 4 bytes, in order to make it 4 byte aligned.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;rbp - 0x28&lt;/td&gt;
-&lt;td&gt;Adress of arr&lt;/td&gt;
+&lt;td&gt;address of arr&lt;/td&gt;
 &lt;td&gt;rbp - 0x58&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -352,7 +352,7 @@ At the address &lt;code&gt;arr_begin + i * (size of int)&lt;/code&gt; the value 
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;rbp - 0x28&lt;/td&gt;
-&lt;td&gt;Adress of arr&lt;/td&gt;
+&lt;td&gt;address of arr&lt;/td&gt;
 &lt;td&gt;rbp - 0x58&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -385,7 +385,7 @@ At the address &lt;code&gt;arr_begin + i * (size of int)&lt;/code&gt; the value 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401214:&lt;/span&gt;	&lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x3&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; rax = rsp + 3&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401218:&lt;/span&gt;	&lt;span class=&#34;nf&#34;&gt;shr&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; shift right by two, equivalent to dividing by 4&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;40121&lt;/span&gt;&lt;span class=&#34;nl&#34;&gt;c:&lt;/span&gt;	&lt;span class=&#34;nf&#34;&gt;shl&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x2&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; shift left by two, equivalent to dividing by 4 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401220:&lt;/span&gt;	&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;QWORD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PTR&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x38&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; save adress on the stack&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;401220:&lt;/span&gt;	&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;kt&#34;&gt;QWORD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PTR&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x38&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rax&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;; save address on the stack&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the second for loop is also pretty much identical to the first one:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;arr2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -459,13 +459,13 @@ At the address &lt;code&gt;arr_begin + i * (size of int)&lt;/code&gt; the value 
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;rbp - 0x38&lt;/td&gt;
-&lt;td&gt;Adress of arr2&lt;/td&gt;
+&lt;td&gt;address of arr2&lt;/td&gt;
 &lt;td&gt;rbp - 0x68&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;rbp - 0x28&lt;/td&gt;
-&lt;td&gt;Adress of arr&lt;/td&gt;
+&lt;td&gt;address of arr&lt;/td&gt;
 &lt;td&gt;rbp - 0x58&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -490,12 +490,12 @@ At the address &lt;code&gt;arr_begin + i * (size of int)&lt;/code&gt; the value 
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;wrapping-up&#34;&gt;Wrapping up&lt;/h2&gt;
-&lt;p&gt;I hope this makes the concept of variable stuff on the stack more clear.
+&lt;p&gt;I hope this clarifies the concept of variable stuff on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any question feel free to reach out to me with any questions,
+If you have any questions feel free to reach out to me,
 through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually but haven&amp;rsquo;t gotten around to it yet.&lt;/p&gt;
+I am also planning on adding a comment section eventually, but haven&amp;rsquo;t gotten around to it yet.&lt;/p&gt;
 &lt;hr&gt;
 &lt;!--## In practice--&gt;
 &lt;!----&gt;
@@ -589,7 +589,7 @@ I am also planning on adding a comment section eventually but haven&amp;rsquo;t 
 &lt;!--401182: add    rax,0x3 ; rax = rsp + 3--&gt;
 &lt;!--401186: shr    rax,0x2 ; shift right by two, equivalent to dividing by 4--&gt;
 &lt;!--40118a: shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 --&gt;
-&lt;!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save adress on the stack--&gt;
+&lt;!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save address on the stack--&gt;
 &lt;!--```--&gt;
 &lt;!----&gt;
 &lt;!--Our stack now looks like this:--&gt;
@@ -597,7 +597,7 @@ I am also planning on adding a comment section eventually but haven&amp;rsquo;t 
 &lt;!--| - | - | - |--&gt;
 &lt;!--| rbp - 0x58 | arr begin | &lt;-- rsp|--&gt;
 &lt;!--| rbp - 0x44 | size | |--&gt;
-&lt;!--| rbp - 0x28 | Adress of arr | |--&gt;
+&lt;!--| rbp - 0x28 | address of arr | |--&gt;
 &lt;!--| rbp | | &lt;-- rbp |--&gt;
 &lt;!----&gt;
 &lt;!--With the memory for the list allocated now, assigning values to the array is quite trivial.--&gt;
@@ -632,7 +632,7 @@ I am also planning on adding a comment section eventually but haven&amp;rsquo;t 
 &lt;!--| rbp - 0x54 | arr[1] | |--&gt;
 &lt;!--| rbp - 0x50 | arr[2] | |--&gt;
 &lt;!--| rbp - 0x44 | size | |--&gt;
-&lt;!--| rbp - 0x28 | Adress of arr | |--&gt;
+&lt;!--| rbp - 0x28 | address of arr | |--&gt;
 &lt;!--| rbp - 0x14 | i | |--&gt;
 &lt;!--| rbp | | &lt;-- rbp |--&gt;
 &lt;!----&gt;

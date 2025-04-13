@@ -4,10 +4,10 @@ date = 2025-04-13
 draft = false
 +++
 
-Lets first give some background on why I wanted to create this post.
+Let's first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
 easy. The `rbp` register stores a pointer to an address on the stack, called the stack frame.
-A local variables are offset by some constant value relative to the stack frame.
+Local variables are offset by some constant value relative to the stack frame.
 
 <!--<style>-->
 <!--table tr th:empty {-->
@@ -61,11 +61,11 @@ Indeed, treating it like any other fixed size local variable would not work.
 | 16|local_var1||
 | 17| |<-- rbp, the stack frame|
 
-> 💡 Note that arrays are addressed upward, meaning as the index increases of
+> 💡 Note that arrays are addressed upward, so as the index increases
 the memory address increases, so in the opposite direction to which the stack grows.
 
 How would we address `local_var2` in this case? 
-In this case we could simply do `rbp-6`, however this would stop working once
+Here we could simply do `rbp-6`. However, this would stop working once
 we create a different sized array.
 
 To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.
@@ -81,7 +81,7 @@ To solve this we can store the offset of the array in another local variable, an
 | 17 |array_offset| (-6)|
 | 18 | |<-- rbp, the stack frame|
 
-If we would now wanted to, for example, add `array_item1` and `local_var2` we could do it like this.
+If we now wanted to, for example, add `array_item1` and `local_var2` we could do it like this.
 
 ```NASM
 ; move address of array_item1 into r1
@@ -101,7 +101,7 @@ add    r2, r3
 
 The above example is somewhat oversimplified, how it is actually done in practice
 is quite different.
-So lets have a look at how an actual compiler, compiles this simple c program:
+So let's have a look at how an actual compiler, compiles this simple c program:
 ```C
 #include <stdio.h>
 
@@ -124,7 +124,7 @@ int main() {
 }
 ```
 
-It was compiled using gcc on a x86_64 machine:
+It was compiled using gcc on an x86_64 machine:
 ```bash
 > gcc var.c -O0
 ```
@@ -136,7 +136,7 @@ These variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of the stack,
 they can be addressed by using the additional variable.
 
-Lets have a look at the what the array allocation compiles to.
+Let's have a look at the what the array allocation compiles to.
 ```C
 unsigned arr[size];
 ```
@@ -158,14 +158,14 @@ to assure the stack pointer stays 16-byte aligned.[^2]
 ```
 
 Next we save the starting address of the array, which is on the newly allocated stack space.
-Once again we have same fancy arithmetic here, this time it simply rounding up
+Once again we have some fancy arithmetic here, this time it simply rounding up
 to the nearest 4 bytes, in order to make it 4 byte aligned.
 ```NASM
 40117f: mov    rax,rsp
 401182: add    rax,0x3 ; rax = rsp + 3
 401186: shr    rax,0x2 ; shift right by two, equivalent to dividing by 4
 40118a: shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 
-40118e: mov    QWORD PTR [rbp-0x28],rax ; save adress on the stack
+40118e: mov    QWORD PTR [rbp-0x28],rax ; save address on the stack
 ```
 
 Our stack now looks like this:
@@ -173,7 +173,7 @@ Our stack now looks like this:
 | - | - | - |-  |
 | rbp - 0x58 | arr begin | | <-- rsp|
 | rbp - 0x44 | size | 3 | |
-| rbp - 0x28 | Adress of arr | rbp - 0x58|
+| rbp - 0x28 | address of arr | rbp - 0x58|
 | rbp | | | <-- rbp |
 
 With the memory for the list allocated now, assigning values to the array is quite trivial.
@@ -208,7 +208,7 @@ Our stack now looks like this:
 | rbp - 0x54 | arr[1] | 1|  |
 | rbp - 0x50 | arr[2] | 2|  |
 | rbp - 0x44 | size | 3 | |
-| rbp - 0x28 | Adress of arr | rbp - 0x58 | |
+| rbp - 0x28 | address of arr | rbp - 0x58 | |
 | rbp - 0x14 | i | 2 | |
 | rbp | | | <-- rbp |
 
@@ -230,7 +230,7 @@ unsigned arr2[size];
 401214:	add    rax,0x3 ; rax = rsp + 3
 401218:	shr    rax,0x2 ; shift right by two, equivalent to dividing by 4
 40121c:	shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 
-401220:	mov    QWORD PTR [rbp-0x38],rax ; save adress on the stack
+401220:	mov    QWORD PTR [rbp-0x38],rax ; save address on the stack
 ```
 
 And the second for loop is also pretty much identical to the first one:
@@ -266,19 +266,19 @@ In the end the final stack looks like this:
 | rbp - 0x54 | arr[1] | 1|  |
 | rbp - 0x50 | arr[2] | 2|  |
 | rbp - 0x44 | size | 3 | |
-| rbp - 0x38 | Adress of arr2 | rbp - 0x68 | |
-| rbp - 0x28 | Adress of arr | rbp - 0x58 | |
+| rbp - 0x38 | address of arr2 | rbp - 0x68 | |
+| rbp - 0x28 | address of arr | rbp - 0x58 | |
 | rbp - 0x18 | i (second loop)| 2 | |
 | rbp - 0x14 | i (first loop)| 2 | |
 | rbp | | | <-- rbp |
 
 ## Wrapping up
-I hope this makes the concept of variable stuff on the stack more clear.
+I hope this clarifies the concept of variable stuff on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any question feel free to reach out to me with any questions,
+If you have any questions feel free to reach out to me,
 through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually but haven't gotten around to it yet.
+I am also planning on adding a comment section eventually, but haven't gotten around to it yet.
 
 ---  
 
@@ -376,7 +376,7 @@ I am also planning on adding a comment section eventually but haven't gotten aro
 <!--401182: add    rax,0x3 ; rax = rsp + 3-->
 <!--401186: shr    rax,0x2 ; shift right by two, equivalent to dividing by 4-->
 <!--40118a: shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 -->
-<!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save adress on the stack-->
+<!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save address on the stack-->
 <!--```-->
 <!---->
 <!--Our stack now looks like this:-->
@@ -384,7 +384,7 @@ I am also planning on adding a comment section eventually but haven't gotten aro
 <!--| - | - | - |-->
 <!--| rbp - 0x58 | arr begin | <-- rsp|-->
 <!--| rbp - 0x44 | size | |-->
-<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp - 0x28 | address of arr | |-->
 <!--| rbp | | <-- rbp |-->
 <!---->
 <!--With the memory for the list allocated now, assigning values to the array is quite trivial.-->
@@ -419,7 +419,7 @@ I am also planning on adding a comment section eventually but haven't gotten aro
 <!--| rbp - 0x54 | arr[1] | |-->
 <!--| rbp - 0x50 | arr[2] | |-->
 <!--| rbp - 0x44 | size | |-->
-<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp - 0x28 | address of arr | |-->
 <!--| rbp - 0x14 | i | |-->
 <!--| rbp | | <-- rbp |-->
 <!---->

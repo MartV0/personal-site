@@ -53,7 +53,7 @@
         },
         "datePublished": "2025-04-13",
         "description": "",
-        "wordCount":  1547 ,
+        "wordCount":  1537 ,
         "mainEntityOfPage": "True",
         "dateModified": "2025-04-13",
         "image": {
@@ -74,7 +74,7 @@
     <meta property="og:url" content="https://martijnv.com/posts/variable_sized_on_stack/">
   <meta property="og:site_name" content="Martijn&#39;s blog">
   <meta property="og:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta property="og:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+  <meta property="og:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. Local variables are offset by some constant value relative to the stack frame.
 address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -87,7 +87,7 @@ address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 loc
     
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta name="twitter:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+  <meta name="twitter:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. Local variables are offset by some constant value relative to the stack frame.
 address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
 
 
@@ -216,10 +216,10 @@ stroke-linejoin="round" class="feather feather-home">
 </nav>
     </details>
             <div class="page-content">
-                <p>Lets first give some background on why I wanted to create this post.
+                <p>Let&rsquo;s first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
 easy. The <code>rbp</code> register stores a pointer to an address on the stack, called the stack frame.
-A local variables are offset by some constant value relative to the stack frame.</p>
+Local variables are offset by some constant value relative to the stack frame.</p>
 <!--<style>-->
 <!--table tr th:empty {-->
 <!--  display: none;-->
@@ -334,11 +334,11 @@ Indeed, treating it like any other fixed size local variable would not work.</p>
 </tbody>
 </table>
 <blockquote>
-<p>💡 Note that arrays are addressed upward, meaning as the index increases of
+<p>💡 Note that arrays are addressed upward, so as the index increases
 the memory address increases, so in the opposite direction to which the stack grows.</p>
 </blockquote>
 <p>How would we address <code>local_var2</code> in this case?
-In this case we could simply do <code>rbp-6</code>, however this would stop working once
+Here we could simply do <code>rbp-6</code>. However, this would stop working once
 we create a different sized array.</p>
 <p>To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.</p>
 <table>
@@ -397,7 +397,7 @@ we create a different sized array.</p>
 </tr>
 </tbody>
 </table>
-<p>If we would now wanted to, for example, add <code>array_item1</code> and <code>local_var2</code> we could do it like this.</p>
+<p>If we now wanted to, for example, add <code>array_item1</code> and <code>local_var2</code> we could do it like this.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="c1">; move address of array_item1 into r1</span>
 </span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r1</span><span class="p">,</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r1</span><span class="p">,</span> <span class="nb">rbp</span>
@@ -412,7 +412,7 @@ we create a different sized array.</p>
 </span></span></code></pre></div><h2 id="in-practice">In practice</h2>
 <p>The above example is somewhat oversimplified, how it is actually done in practice
 is quite different.
-So lets have a look at how an actual compiler, compiles this simple c program:</p>
+So let&rsquo;s have a look at how an actual compiler, compiles this simple c program:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">function</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">size</span><span class="p">){</span>
@@ -432,7 +432,7 @@ So lets have a look at how an actual compiler, compiles this simple c program:</
 </span></span><span class="line"><span class="cl">    <span class="nf">function</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>It was compiled using gcc on a x86_64 machine:</p>
+</span></span></code></pre></div><p>It was compiled using gcc on an x86_64 machine:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; gcc var.c -O0
 </span></span></code></pre></div><p>The general strategy goes like this: the fixed size variables are located at the
 start of the stack frame, along with an additional variable for each array storing
@@ -440,7 +440,7 @@ the starting position of the array.
 These variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of the stack,
 they can be addressed by using the additional variable.</p>
-<p>Lets have a look at the what the array allocation compiles to.</p>
+<p>Let&rsquo;s have a look at the what the array allocation compiles to.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="n">arr</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
 </span></span></code></pre></div><p>We simply grow the stack by <code>size * 4</code> as a single unsigned int is 4 bytes.
 There is just some extra fancy arithmetic
@@ -455,13 +455,13 @@ to assure the stack pointer stays 16-byte aligned.<sup id="fnref:2"><a href="#fn
 </span></span><span class="line"><span class="cl"><span class="err">401178:</span> <span class="nf">imul</span>   <span class="nb">rax</span><span class="p">,</span><span class="nb">rax</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; rax = rax * 16</span>
 </span></span><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">c:</span> <span class="nf">sub</span>    <span class="nb">rsp</span><span class="p">,</span><span class="nb">rax</span> <span class="c1">; grow stack by previously calculated size</span>
 </span></span></code></pre></div><p>Next we save the starting address of the array, which is on the newly allocated stack space.
-Once again we have same fancy arithmetic here, this time it simply rounding up
+Once again we have some fancy arithmetic here, this time it simply rounding up
 to the nearest 4 bytes, in order to make it 4 byte aligned.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">f:</span> <span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rsp</span>
 </span></span><span class="line"><span class="cl"><span class="err">401182:</span> <span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x3</span> <span class="c1">; rax = rsp + 3</span>
 </span></span><span class="line"><span class="cl"><span class="err">401186:</span> <span class="nf">shr</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift right by two, equivalent to dividing by 4</span>
 </span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">a:</span> <span class="nf">shl</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift left by two, equivalent to dividing by 4 </span>
-</span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">e:</span> <span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x28</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save adress on the stack</span>
+</span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">e:</span> <span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x28</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save address on the stack</span>
 </span></span></code></pre></div><p>Our stack now looks like this:</p>
 <table>
 <thead>
@@ -487,7 +487,7 @@ to the nearest 4 bytes, in order to make it 4 byte aligned.</p>
 </tr>
 <tr>
 <td>rbp - 0x28</td>
-<td>Adress of arr</td>
+<td>address of arr</td>
 <td>rbp - 0x58</td>
 <td></td>
 </tr>
@@ -554,7 +554,7 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </tr>
 <tr>
 <td>rbp - 0x28</td>
-<td>Adress of arr</td>
+<td>address of arr</td>
 <td>rbp - 0x58</td>
 <td></td>
 </tr>
@@ -587,7 +587,7 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </span></span><span class="line"><span class="cl"><span class="err">401214:</span>	<span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x3</span> <span class="c1">; rax = rsp + 3</span>
 </span></span><span class="line"><span class="cl"><span class="err">401218:</span>	<span class="nf">shr</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift right by two, equivalent to dividing by 4</span>
 </span></span><span class="line"><span class="cl"><span class="err">40121</span><span class="nl">c:</span>	<span class="nf">shl</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift left by two, equivalent to dividing by 4 </span>
-</span></span><span class="line"><span class="cl"><span class="err">401220:</span>	<span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x38</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save adress on the stack</span>
+</span></span><span class="line"><span class="cl"><span class="err">401220:</span>	<span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x38</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save address on the stack</span>
 </span></span></code></pre></div><p>And the second for loop is also pretty much identical to the first one:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
 </span></span><span class="line"><span class="cl">    <span class="n">arr2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
@@ -661,13 +661,13 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </tr>
 <tr>
 <td>rbp - 0x38</td>
-<td>Adress of arr2</td>
+<td>address of arr2</td>
 <td>rbp - 0x68</td>
 <td></td>
 </tr>
 <tr>
 <td>rbp - 0x28</td>
-<td>Adress of arr</td>
+<td>address of arr</td>
 <td>rbp - 0x58</td>
 <td></td>
 </tr>
@@ -692,12 +692,12 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </tbody>
 </table>
 <h2 id="wrapping-up">Wrapping up</h2>
-<p>I hope this makes the concept of variable stuff on the stack more clear.
+<p>I hope this clarifies the concept of variable stuff on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any question feel free to reach out to me with any questions,
+If you have any questions feel free to reach out to me,
 through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually but haven&rsquo;t gotten around to it yet.</p>
+I am also planning on adding a comment section eventually, but haven&rsquo;t gotten around to it yet.</p>
 <hr>
 <!--## In practice-->
 <!---->
@@ -791,7 +791,7 @@ I am also planning on adding a comment section eventually but haven&rsquo;t gott
 <!--401182: add    rax,0x3 ; rax = rsp + 3-->
 <!--401186: shr    rax,0x2 ; shift right by two, equivalent to dividing by 4-->
 <!--40118a: shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 -->
-<!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save adress on the stack-->
+<!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save address on the stack-->
 <!--```-->
 <!---->
 <!--Our stack now looks like this:-->
@@ -799,7 +799,7 @@ I am also planning on adding a comment section eventually but haven&rsquo;t gott
 <!--| - | - | - |-->
 <!--| rbp - 0x58 | arr begin | <-- rsp|-->
 <!--| rbp - 0x44 | size | |-->
-<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp - 0x28 | address of arr | |-->
 <!--| rbp | | <-- rbp |-->
 <!---->
 <!--With the memory for the list allocated now, assigning values to the array is quite trivial.-->
@@ -834,7 +834,7 @@ I am also planning on adding a comment section eventually but haven&rsquo;t gott
 <!--| rbp - 0x54 | arr[1] | |-->
 <!--| rbp - 0x50 | arr[2] | |-->
 <!--| rbp - 0x44 | size | |-->
-<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp - 0x28 | address of arr | |-->
 <!--| rbp - 0x14 | i | |-->
 <!--| rbp | | <-- rbp |-->
 <!---->
