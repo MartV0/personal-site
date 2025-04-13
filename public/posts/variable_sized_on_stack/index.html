@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<html lang="en-us"><head><meta charset="utf-8">
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en-us" />
 <meta name="language" content="en-us" />
 
-  <link rel="alternate" hreflang="en-gb" href="http://localhost:1313/posts/variable_sized_on_stack/" title="" />
+  <link rel="alternate" hreflang="en-gb" href="https://martijnv.com/posts/variable_sized_on_stack/" title="" />
 
 
 
@@ -29,9 +29,9 @@
     
 
     <meta property="og:type" content="article" />
-    <meta property="og:article:published_time" content=2025-02-07T20:57:52&#43;0100 />
-    <meta property="article:published_time" content=2025-02-07T20:57:52&#43;0100 />
-    <meta property="og:url" content="http://localhost:1313/posts/variable_sized_on_stack/" />
+    <meta property="og:article:published_time" content=2025-04-13T00:00:00Z />
+    <meta property="article:published_time" content=2025-04-13T00:00:00Z />
+    <meta property="og:url" content="https://martijnv.com/posts/variable_sized_on_stack/" />
 
     
     <meta property="og:article:author" content="Martijn Voordouw" />
@@ -51,11 +51,11 @@
         "@type": "Person",
         "name": ""
         },
-        "datePublished": "2025-02-07",
+        "datePublished": "2025-04-13",
         "description": "",
-        "wordCount":  167 ,
+        "wordCount":  1547 ,
         "mainEntityOfPage": "True",
-        "dateModified": "2025-02-07",
+        "dateModified": "2025-04-13",
         "image": {
         "@type": "imageObject",
         "url": ""
@@ -71,29 +71,29 @@
 <meta name="generator" content="Hugo 0.131.0">
 
     
-    <meta property="og:url" content="http://localhost:1313/posts/variable_sized_on_stack/">
+    <meta property="og:url" content="https://martijnv.com/posts/variable_sized_on_stack/">
   <meta property="og:site_name" content="Martijn&#39;s blog">
   <meta property="og:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta property="og:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an adress on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
-&lt;– rsp, growing stack pointer local_var3 local_var2 local_var1 &lt;– rbp, the stack frame Adressing these local variables can be done using a single instruction, and thus is very fast.">
+  <meta property="og:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2025-02-07T20:57:52+01:00">
-    <meta property="article:modified_time" content="2025-02-07T20:57:52+01:00">
+    <meta property="article:published_time" content="2025-04-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-13T00:00:00+00:00">
 
 
     
     
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta name="twitter:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an adress on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
-&lt;– rsp, growing stack pointer local_var3 local_var2 local_var1 &lt;– rbp, the stack frame Adressing these local variables can be done using a single instruction, and thus is very fast.">
+  <meta name="twitter:description" content="Lets first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. A local variables are offset by some constant value relative to the stack frame.
+address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
 
 
     
 
-    <link rel="canonical" href="http://localhost:1313/posts/variable_sized_on_stack/">
+    <link rel="canonical" href="https://martijnv.com/posts/variable_sized_on_stack/">
     <link href="/style.min.e390ba7da26222f4dc42a349955d76dbbe44e5ce2535a43de5a70633a0a9ec3c.css" rel="stylesheet">
     <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
 
@@ -107,7 +107,7 @@
 
 
 
-<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+<link rel="manifest" href="https://martijnv.com/site.webmanifest">
 
 <meta name="msapplication-config" content="/browserconfig.xml">
 <meta name="msapplication-TileColor" content="#2d89ef">
@@ -118,14 +118,18 @@
 
     
     
+  
+
+
+    
 </head>
 <body data-theme = "auto" class="notransition">
 
-<script src="/js/theme.js"></script>
+<script src="/js/theme.min.8961c317c5b88b953fe27525839672c9343f1058ab044696ca225656c8ba2ab0.js" integrity="sha256-iWHDF8W4i5U/4nUlg5ZyyTQ/EFirBEaWyiJWVsi6KrA="></script>
 
 <div class="navbar" role="navigation">
     <nav class="menu" aria-label="Main Navigation">
-        <a href="http://localhost:1313/" class="logo">
+        <a href="https://martijnv.com/" class="logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
 stroke-linejoin="round" class="feather feather-home">
@@ -191,64 +195,731 @@ stroke-linejoin="round" class="feather feather-home">
                 
                 
                 <div class="post-meta">
-                    <time datetime="2025-02-07T20:57:52&#43;01:00" itemprop="datePublished"> 7 Feb 2025 </time>
+                    <time datetime="2025-04-13T00:00:00&#43;00:00" itemprop="datePublished"> 13 Apr 2025 </time>
                 </div>
                 
             </header>
             
+    
+    <details class="toc" ZgotmplZ>
+        <summary><b>Table of Contents</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#variable-sized-arrays-in-c">Variable sized arrays in C</a></li>
+        <li><a href="#in-practice">In practice</a></li>
+        <li><a href="#wrapping-up">Wrapping up</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </details>
             <div class="page-content">
                 <p>Lets first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
-easy. The <code>rbp</code> register stores a pointer to an adress on the stack, called the stack frame.
+easy. The <code>rbp</code> register stores a pointer to an address on the stack, called the stack frame.
 A local variables are offset by some constant value relative to the stack frame.</p>
-<style>
-table tr th:empty {
-  display: none;
-}
-</style>
+<!--<style>-->
+<!--table tr th:empty {-->
+<!--  display: none;-->
+<!--}-->
+<!--</style>-->
 <table>
 <thead>
 <tr>
+<th>address</th>
 <th></th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>10</td>
 <td></td>
 <td>&lt;&ndash; rsp, growing stack pointer</td>
 </tr>
 <tr>
+<td>11</td>
 <td>local_var3</td>
 <td></td>
 </tr>
 <tr>
+<td>12</td>
 <td>local_var2</td>
 <td></td>
 </tr>
 <tr>
+<td>13</td>
 <td>local_var1</td>
 <td></td>
 </tr>
 <tr>
+<td>14</td>
 <td></td>
 <td>&lt;&ndash; rbp, the stack frame</td>
 </tr>
 </tbody>
 </table>
-<p>Adressing these local variables can be done using a single instruction, and thus
+<blockquote>
+<p>💡 Note that the stack grows downwards, meaning the address of the top of the stack
+decreases as variables are stored on the stack.</p>
+</blockquote>
+<p>Addressing these local variables can be done using a single instruction, and thus
 is very fast.
-For example moving <code>local_var1</code> and <code>local_var3</code> into register and adding them
+For example moving <code>local_var1</code> and <code>local_var3</code> into registers and adding them
 can be done like this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TASM" data-lang="TASM"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="o">%</span><span class="nv">r1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">(</span><span class="o">%</span><span class="nb">rbp</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="o">%</span><span class="nv">r2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">(</span><span class="o">%</span><span class="nb">rbp</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="o">%</span><span class="nv">r1</span><span class="p">,</span><span class="o">%</span><span class="nv">r2</span>
-</span></span></code></pre></div><h2 id="variable-sized-arrays-in-c">Variable sized arrays in C</h2>
-<p>Having heard in some places that variables are actually exclusively fixed size,
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r1</span><span class="p">,</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r2</span><span class="p">,</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r1</span><span class="p">,</span> <span class="nv">r2</span>
+</span></span></code></pre></div><p>For addressing like this to work the variables on the stack need to be fixed size,
+because the offsets relative to the stack frame are hard coded at compile time.</p>
+<h2 id="variable-sized-arrays-in-c">Variable sized arrays in C</h2>
+<p>Having heard in some places that variables on the stack are actually exclusively fixed size,
 I was left very confused after discovering variable sized arrays in C.
 Variable sized arrays can be created like this:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
-</span></span></code></pre></div><p>This creates a local variable containing an array of size <code>n</code>, stored on the stack.</p>
+</span></span></code></pre></div><p>This creates a local variable containing an array of size <code>n</code>, stored on the stack.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>Well how does this work? Wouldn&rsquo;t this mess with the fixed offset of the local variables?
+Indeed, treating it like any other fixed size local variable would not work.</p>
+<table>
+<thead>
+<tr>
+<th>address</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td></td>
+<td>&lt;&ndash; rsp, growing stack pointer</td>
+</tr>
+<tr>
+<td>11</td>
+<td>local_var2</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>array_item1</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>array_item2</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>array_item3</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>array_item4</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>local_var1</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td>&lt;&ndash; rbp, the stack frame</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 Note that arrays are addressed upward, meaning as the index increases of
+the memory address increases, so in the opposite direction to which the stack grows.</p>
+</blockquote>
+<p>How would we address <code>local_var2</code> in this case?
+In this case we could simply do <code>rbp-6</code>, however this would stop working once
+we create a different sized array.</p>
+<p>To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.</p>
+<table>
+<thead>
+<tr>
+<th>address</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td></td>
+<td>&lt;&ndash; rsp, growing stack pointer</td>
+</tr>
+<tr>
+<td>11</td>
+<td>local_var2</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>array_item1</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>array_item2</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>array_item3</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>array_item4</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>local_var1</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>array_offset</td>
+<td>(-6)</td>
+</tr>
+<tr>
+<td>18</td>
+<td></td>
+<td>&lt;&ndash; rbp, the stack frame</td>
+</tr>
+</tbody>
+</table>
+<p>If we would now wanted to, for example, add <code>array_item1</code> and <code>local_var2</code> we could do it like this.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="c1">; move address of array_item1 into r1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r1</span><span class="p">,</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r1</span><span class="p">,</span> <span class="nb">rbp</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; set r2 to array_item1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r2</span><span class="p">,</span> <span class="p">[</span><span class="nv">r1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; subtract 1 from address of array_item 1, so address of local_var2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sub</span>    <span class="nv">r1</span><span class="p">,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; set r3 to local_var2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r3</span><span class="p">,</span> <span class="p">[</span><span class="nv">r1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; add array_item1 and local_var2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r2</span><span class="p">,</span> <span class="nv">r3</span>
+</span></span></code></pre></div><h2 id="in-practice">In practice</h2>
+<p>The above example is somewhat oversimplified, how it is actually done in practice
+is quite different.
+So lets have a look at how an actual compiler, compiles this simple c program:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">function</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">size</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">arr</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;arr: First: %d, Last: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="n">arr2</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">arr2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;arr2: First: %d, Last: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">arr2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr2</span><span class="p">[</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">function</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>It was compiled using gcc on a x86_64 machine:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; gcc var.c -O0
+</span></span></code></pre></div><p>The general strategy goes like this: the fixed size variables are located at the
+start of the stack frame, along with an additional variable for each array storing
+the starting position of the array.
+These variables can still be addressed using a single instruction.
+The variable sized arrays are then just put on top of the stack,
+they can be addressed by using the additional variable.</p>
+<p>Lets have a look at the what the array allocation compiles to.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="n">arr</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+</span></span></code></pre></div><p>We simply grow the stack by <code>size * 4</code> as a single unsigned int is 4 bytes.
+There is just some extra fancy arithmetic
+to assure the stack pointer stays 16-byte aligned.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="err">401157:</span> <span class="nf">lea</span>    <span class="nb">rdx</span><span class="p">,[</span><span class="nb">rax</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="mh">0x0</span><span class="p">]</span> <span class="c1">; rdx = rax * 4 = size * 4</span>
+</span></span><span class="line"><span class="cl"><span class="err">40115</span><span class="nl">f:</span> <span class="nf">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; eax = 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">401164:</span> <span class="nf">sub</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x1</span> <span class="c1">;  rax = 16 - 1</span>
+</span></span><span class="line"><span class="cl"><span class="err">401168:</span> <span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rdx</span> <span class="c1">;  rax = size * 4 + 16 - 1</span>
+</span></span><span class="line"><span class="cl"><span class="err">40116</span><span class="nl">b:</span> <span class="nf">mov</span>    <span class="nb">edi</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; edi = 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">401170:</span> <span class="nf">mov</span>    <span class="nb">edx</span><span class="p">,</span><span class="mh">0x0</span>  <span class="c1">; edx = 0</span>
+</span></span><span class="line"><span class="cl"><span class="err">401175:</span> <span class="nf">div</span>    <span class="nb">rdi</span> <span class="c1">; rax = rax / rdi = (size * 4 + 16 - 1) / 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">401178:</span> <span class="nf">imul</span>   <span class="nb">rax</span><span class="p">,</span><span class="nb">rax</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; rax = rax * 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">c:</span> <span class="nf">sub</span>    <span class="nb">rsp</span><span class="p">,</span><span class="nb">rax</span> <span class="c1">; grow stack by previously calculated size</span>
+</span></span></code></pre></div><p>Next we save the starting address of the array, which is on the newly allocated stack space.
+Once again we have same fancy arithmetic here, this time it simply rounding up
+to the nearest 4 bytes, in order to make it 4 byte aligned.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">f:</span> <span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rsp</span>
+</span></span><span class="line"><span class="cl"><span class="err">401182:</span> <span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x3</span> <span class="c1">; rax = rsp + 3</span>
+</span></span><span class="line"><span class="cl"><span class="err">401186:</span> <span class="nf">shr</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift right by two, equivalent to dividing by 4</span>
+</span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">a:</span> <span class="nf">shl</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift left by two, equivalent to dividing by 4 </span>
+</span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">e:</span> <span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x28</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save adress on the stack</span>
+</span></span></code></pre></div><p>Our stack now looks like this:</p>
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Content</th>
+<th>Value</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rbp - 0x58</td>
+<td>arr begin</td>
+<td></td>
+<td>&lt;&ndash; rsp</td>
+</tr>
+<tr>
+<td>rbp - 0x44</td>
+<td>size</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x28</td>
+<td>Adress of arr</td>
+<td>rbp - 0x58</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp</td>
+<td></td>
+<td></td>
+<td>&lt;&ndash; rbp</td>
+</tr>
+</tbody>
+</table>
+<p>With the memory for the list allocated now, assigning values to the array is quite trivial.
+At the address <code>arr_begin + i * (size of int)</code> the value is written.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="c1">; Loop initialization </span>
+</span></span><span class="line"><span class="cl"><span class="err">401192:</span>	<span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x14</span><span class="p">],</span><span class="mh">0x0</span>   <span class="c1">; i = 0</span>
+</span></span><span class="line"><span class="cl"><span class="err">401199:</span>	<span class="nf">jmp</span>    <span class="mi">4011</span><span class="nv">ac</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0x76</span><span class="o">&gt;</span>     <span class="c1">; jump to loop condition check (4011ac)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; Loop body</span>
+</span></span><span class="line"><span class="cl"><span class="err">40119</span><span class="nl">b:</span>	<span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x28</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">40119</span><span class="nl">f:</span>	<span class="nf">mov</span>    <span class="nb">edx</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x14</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">a2:</span>	<span class="nf">mov</span>    <span class="nb">ecx</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x14</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">a5:</span>	<span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rax</span><span class="o">+</span><span class="nb">rdx</span><span class="o">*</span><span class="mi">4</span><span class="p">],</span><span class="nb">ecx</span> <span class="c1">; [arr_begin + i * (size of int)] = arr[i] = i</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">a8:</span>	<span class="nf">add</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x14</span><span class="p">],</span><span class="mh">0x1</span>  <span class="c1">; i++</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; Loop condition</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">ac:</span>	<span class="nf">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x14</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">af:</span>	<span class="nf">cmp</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x44</span><span class="p">]</span>  <span class="c1">; i &lt; size</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">b2:</span>	<span class="nf">jb</span>     <span class="mi">40119</span><span class="nv">b</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0x65</span><span class="o">&gt;</span>    <span class="c1">; jump to loop body if i &lt; size</span>
+</span></span></code></pre></div><p>Our stack now looks like this:</p>
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Content</th>
+<th>Value</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rbp - 0x58</td>
+<td>arr[0]</td>
+<td>0</td>
+<td>&lt;&ndash; rsp</td>
+</tr>
+<tr>
+<td>rbp - 0x54</td>
+<td>arr[1]</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x50</td>
+<td>arr[2]</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x44</td>
+<td>size</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x28</td>
+<td>Adress of arr</td>
+<td>rbp - 0x58</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x14</td>
+<td>i</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp</td>
+<td></td>
+<td></td>
+<td>&lt;&ndash; rbp</td>
+</tr>
+</tbody>
+</table>
+<p>The second allocation of the array works identically to the first one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="n">arr2</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">e9:</span>	<span class="nf">lea</span>    <span class="nb">rdx</span><span class="p">,[</span><span class="nb">rax</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="mh">0x0</span><span class="p">]</span> <span class="c1">; rdx = rax * 4 = size * 4</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">f1:</span>	<span class="nf">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; eax = 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">f6:</span>	<span class="nf">sub</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x1</span> <span class="c1">;  rax = 16 - 1</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">fa:</span>	<span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rdx</span> <span class="c1">;  rax = size * 4 + 16 - 1</span>
+</span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">fd:</span>	<span class="nf">mov</span>    <span class="nb">ecx</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; ecx = 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">401202:</span>	<span class="nf">mov</span>    <span class="nb">edx</span><span class="p">,</span><span class="mh">0x0</span>  <span class="c1">; edx = 0</span>
+</span></span><span class="line"><span class="cl"><span class="err">401207:</span>	<span class="nf">div</span>    <span class="nb">rcx</span> <span class="c1">; rax = rax / rcx = (size * 4 + 16 - 1) / 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">40120</span><span class="nl">a:</span>	<span class="nf">imul</span>   <span class="nb">rax</span><span class="p">,</span><span class="nb">rax</span><span class="p">,</span><span class="mh">0x10</span>  <span class="c1">; rax = rax * 16</span>
+</span></span><span class="line"><span class="cl"><span class="err">40120</span><span class="nl">e:</span>	<span class="nf">sub</span>    <span class="nb">rsp</span><span class="p">,</span><span class="nb">rax</span> <span class="c1">; grow stack by previously calculated size</span>
+</span></span><span class="line"><span class="cl"><span class="err">401211:</span>	<span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rsp</span>
+</span></span><span class="line"><span class="cl"><span class="err">401214:</span>	<span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x3</span> <span class="c1">; rax = rsp + 3</span>
+</span></span><span class="line"><span class="cl"><span class="err">401218:</span>	<span class="nf">shr</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift right by two, equivalent to dividing by 4</span>
+</span></span><span class="line"><span class="cl"><span class="err">40121</span><span class="nl">c:</span>	<span class="nf">shl</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x2</span> <span class="c1">; shift left by two, equivalent to dividing by 4 </span>
+</span></span><span class="line"><span class="cl"><span class="err">401220:</span>	<span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x38</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save adress on the stack</span>
+</span></span></code></pre></div><p>And the second for loop is also pretty much identical to the first one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arr2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="c1">; Loop initialization </span>
+</span></span><span class="line"><span class="cl"><span class="err">401224:</span>	<span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x18</span><span class="p">],</span><span class="mh">0x0</span>
+</span></span><span class="line"><span class="cl"><span class="err">40122</span><span class="nl">b:</span>	<span class="nf">jmp</span>    <span class="mi">401241</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0x10b</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; Loop body</span>
+</span></span><span class="line"><span class="cl"><span class="err">40122</span><span class="nl">d:</span>	<span class="nf">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x18</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">401230:</span>	<span class="nf">lea</span>    <span class="nb">ecx</span><span class="p">,[</span><span class="nb">rax</span><span class="o">+</span><span class="nb">rax</span><span class="o">*</span><span class="mi">1</span><span class="p">]</span> <span class="c1">; ecx = i * 2</span>
+</span></span><span class="line"><span class="cl"><span class="err">401233:</span>	<span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x38</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">401237:</span>	<span class="nf">mov</span>    <span class="nb">edx</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x18</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">40123</span><span class="nl">a:</span>	<span class="nf">mov</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rax</span><span class="o">+</span><span class="nb">rdx</span><span class="o">*</span><span class="mi">4</span><span class="p">],</span><span class="nb">ecx</span> <span class="c1">; [arr_begin + i * (size of int)] = arr[i] = i*2</span>
+</span></span><span class="line"><span class="cl"><span class="err">40123</span><span class="nl">d:</span>	<span class="nf">add</span>    <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x18</span><span class="p">],</span><span class="mh">0x1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; Loop condition</span>
+</span></span><span class="line"><span class="cl"><span class="err">401241:</span>	<span class="nf">mov</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x18</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">401244:</span>	<span class="nf">cmp</span>    <span class="nb">eax</span><span class="p">,</span><span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x44</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">401247:</span>	<span class="nf">jb</span>     <span class="mi">40122</span><span class="nv">d</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0xf7</span><span class="o">&gt;</span>
+</span></span></code></pre></div><p>In the end the final stack looks like this:</p>
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Content</th>
+<th>Value</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rbp - 0x68</td>
+<td>arr2[0]</td>
+<td>0</td>
+<td>&lt;&ndash; rsp</td>
+</tr>
+<tr>
+<td>rbp - 0x64</td>
+<td>arr2[1]</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x60</td>
+<td>arr2[2]</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x58</td>
+<td>arr[0]</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x54</td>
+<td>arr[1]</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x50</td>
+<td>arr[2]</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x44</td>
+<td>size</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x38</td>
+<td>Adress of arr2</td>
+<td>rbp - 0x68</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x28</td>
+<td>Adress of arr</td>
+<td>rbp - 0x58</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x18</td>
+<td>i (second loop)</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp - 0x14</td>
+<td>i (first loop)</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>rbp</td>
+<td></td>
+<td></td>
+<td>&lt;&ndash; rbp</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>I hope this makes the concept of variable stuff on the stack more clear.
+I certainly really enjoyed looking at the disassembled code and figuring out how it works,
+I learned a lot about assembly and compilers in the process.
+If you have any question feel free to reach out to me with any questions,
+through mastodon is probably your best bet,
+I am also planning on adding a comment section eventually but haven&rsquo;t gotten around to it yet.</p>
+<hr>
+<!--## In practice-->
+<!---->
+<!--The above example is somewhat oversimplified, how it is actually done in practice-->
+<!--is quite different.-->
+<!--So lets have a look at how an actual compiler, compiles this simple c program:-->
+<!--```C-->
+<!--#include <stdio.h>-->
+<!---->
+<!--void function(unsigned size){-->
+<!--    unsigned arr[size];-->
+<!--    for(unsigned i = 0; i<size; i++){-->
+<!--        arr[i]=i;-->
+<!--    }-->
+<!--    printf("arr: First: %d, Last: %d\n", arr[0], arr[size-1]);-->
+<!--    unsigned arr2[size];-->
+<!--    for(unsigned i = 0; i<size; i++){-->
+<!--        arr2[i]=i*2;-->
+<!--    }-->
+<!--    printf("arr2: First: %d, Last: %d\n", arr2[0], arr2[size-1]);-->
+<!--}-->
+<!---->
+<!--int main() {-->
+<!--    function(3);-->
+<!--    return 0;-->
+<!--}-->
+<!--```-->
+<!---->
+<!--It was compiled using gcc:-->
+<!--```bash-->
+<!-- gcc var.c -O0-->
+<!--```-->
+<!---->
+<!--Lets look at each part of the c code bit by bit and what it compiles to.-->
+<!---->
+<!--First there is just some standard c calling convention stuff, like saving the-->
+<!--previous stack frame etc.-->
+<!--```C-->
+<!--void function(unsigned size){-->
+<!--```-->
+<!--```NASM-->
+<!--401136:	push   rbp ; save previous stackframe-->
+<!--401137:	mov    rbp,rsp ; set new stackframe-->
+<!--40113a:	push   rbx ; rbx is callee-saved (convention, not super important)-->
+<!--40113b:	sub    rsp,0x48 ; make space for fixed size local variables on stack-->
+<!--40113f:	mov    DWORD PTR [rbp-0x44],edi ; edi is the function argument, store it on the stack-->
+<!--401142:	mov    rax,rsp-->
+<!--401145:	mov    rbx,rax ; Previous stack pointer is saved in rbx-->
+<!--```-->
+<!--Our stack now looks like this:-->
+<!--| Address | Content | |-->
+<!--| - | - | - |-->
+<!--| rbp - 0x48 | | <-- rsp|-->
+<!--| rbp - 0x44 | size | |-->
+<!--| rbp | | <-- rbp |-->
+<!---->
+<!--Next lets have a look at the what the array allocation compiles to.-->
+<!--```C-->
+<!--unsigned arr[size];-->
+<!--```-->
+<!--We are saving `size - 1` on the stack, this variable isn't actually used anywhere-->
+<!--and would most likely be optimised away with compiler optimisations.-->
+<!--```NASM-->
+<!--401148: mov    eax,DWORD PTR [rbp-0x44] ; eax = size-->
+<!--40114b: mov    edx,eax ; edx = eax = size-->
+<!--40114d: sub    rdx,0x1 ; rdx = size - 1-->
+<!--401151: mov    QWORD PTR [rbp-0x20],rdx ; save size - 1 in local var (rbp-0x20)-->
+<!--401155: mov    eax,eax ; This just does nothing-->
+<!--```-->
+<!---->
+<!--Next we simply grow the stack by `size * 4` as a single unsigned int is 4 bytes.-->
+<!--There is just some extra fancy arithmetic-->
+<!--to assure the stack pointer stays 16-byte aligned.[^2]-->
+<!--```NASM-->
+<!--401157: lea    rdx,[rax*4+0x0] ; rdx = rax * 4 = size * 4-->
+<!--40115f: mov    eax,0x10 ; eax = 16-->
+<!--401164: sub    rax,0x1 ;  rax = 16 - 1-->
+<!--401168: add    rax,rdx ;  rax = size * 4 + 16 - 1-->
+<!--40116b: mov    edi,0x10 ; edi = 16-->
+<!--401170: mov    edx,0x0  ; edx = 0-->
+<!--401175: div    rdi ; rax = rax / rdi = (size * 4 + 16 - 1) / 16-->
+<!--401178: imul   rax,rax,0x10 ; rax = rax * 16-->
+<!--40117c: sub    rsp,rax ; grow stack by previously calculated size-->
+<!--```-->
+<!---->
+<!--Next we save the starting address of the array, which is on the newly allocated stack space.-->
+<!--Once again we have same fancy arithmetic here, this time it simply rounding up-->
+<!--to the nearest 4 bytes, in order to make it 4 byte aligned.-->
+<!--```NASM-->
+<!--40117f: mov    rax,rsp-->
+<!--401182: add    rax,0x3 ; rax = rsp + 3-->
+<!--401186: shr    rax,0x2 ; shift right by two, equivalent to dividing by 4-->
+<!--40118a: shl    rax,0x2 ; shift left by two, equivalent to dividing by 4 -->
+<!--40118e: mov    QWORD PTR [rbp-0x28],rax ; save adress on the stack-->
+<!--```-->
+<!---->
+<!--Our stack now looks like this:-->
+<!--| Address | Content | |-->
+<!--| - | - | - |-->
+<!--| rbp - 0x58 | arr begin | <-- rsp|-->
+<!--| rbp - 0x44 | size | |-->
+<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp | | <-- rbp |-->
+<!---->
+<!--With the memory for the list allocated now, assigning values to the array is quite trivial.-->
+<!--At the address arr_begin + i * (size of int) the value is written.-->
+<!---->
+<!--```C-->
+<!--for(unsigned i = 0; i<size; i++){-->
+<!--    arr[i]=i;-->
+<!--}-->
+<!--```-->
+<!---->
+<!--```NASM-->
+<!--; Loop initialization -->
+<!--401192:	mov    DWORD PTR [rbp-0x14],0x0   ; i = 0-->
+<!--401199:	jmp    4011ac <function+0x76>     ; jump to loop condition check (4011ac)-->
+<!--; Loop body-->
+<!--40119b:	mov    rax,QWORD PTR [rbp-0x28]-->
+<!--40119f:	mov    edx,DWORD PTR [rbp-0x14]-->
+<!--4011a2:	mov    ecx,DWORD PTR [rbp-0x14]-->
+<!--4011a5:	mov    DWORD PTR [rax+rdx*4],ecx ; [arr_begin + i * (size of int)] = arr[i] = i-->
+<!--4011a8:	add    DWORD PTR [rbp-0x14],0x1  ; i++-->
+<!--; Loop condition-->
+<!--4011ac:	mov    eax,DWORD PTR [rbp-0x14]-->
+<!--4011af:	cmp    eax,DWORD PTR [rbp-0x44]  ; i < size-->
+<!--4011b2:	jb     40119b <function+0x65>    ; jump to loop body if i < size-->
+<!--```-->
+<!---->
+<!--Our stack now looks like this:-->
+<!--| Address | Content | |-->
+<!--| - | - | - |-->
+<!--| rbp - 0x58 | arr[0] | <-- rsp|-->
+<!--| rbp - 0x54 | arr[1] | |-->
+<!--| rbp - 0x50 | arr[2] | |-->
+<!--| rbp - 0x44 | size | |-->
+<!--| rbp - 0x28 | Adress of arr | |-->
+<!--| rbp - 0x14 | i | |-->
+<!--| rbp | | <-- rbp |-->
+<!---->
+<!--First print statement-->
+<!--```NASM-->
+<!--4011b4:	mov    eax,DWORD PTR [rbp-0x44]  ; -->
+<!--4011b7:	lea    edx,[rax-0x1]-->
+<!--4011ba:	mov    rax,QWORD PTR [rbp-0x28]-->
+<!--4011be:	mov    edx,edx-->
+<!--4011c0:	mov    edx,DWORD PTR [rax+rdx*4]-->
+<!--4011c3:	mov    rax,QWORD PTR [rbp-0x28]-->
+<!--4011c7:	mov    eax,DWORD PTR [rax]-->
+<!--4011c9:	mov    esi,eax-->
+<!--4011cb:	mov    edi,0x402004-->
+<!--4011d0:	mov    eax,0x0-->
+<!--4011d5:	call   401030 <printf@plt>-->
+<!--```-->
+<!---->
+<!--Second allocation-->
+<!--```NASM-->
+<!--4011da:	mov    eax,DWORD PTR [rbp-0x44]-->
+<!--4011dd:	mov    edx,eax-->
+<!--4011df:	sub    rdx,0x1-->
+<!--4011e3:	mov    QWORD PTR [rbp-0x30],rdx-->
+<!--4011e7:	mov    eax,eax-->
+<!--4011e9:	lea    rdx,[rax*4+0x0]-->
+<!--4011f0:	-->
+<!--4011f1:	mov    eax,0x10-->
+<!--4011f6:	sub    rax,0x1-->
+<!--4011fa:	add    rax,rdx-->
+<!--4011fd:	mov    ecx,0x10-->
+<!--401202:	mov    edx,0x0-->
+<!--401207:	div    rcx-->
+<!--40120a:	imul   rax,rax,0x10-->
+<!--40120e:	sub    rsp,rax-->
+<!--401211:	mov    rax,rsp-->
+<!--401214:	add    rax,0x3-->
+<!--401218:	shr    rax,0x2-->
+<!--40121c:	shl    rax,0x2-->
+<!--401220:	mov    QWORD PTR [rbp-0x38],rax-->
+<!--```-->
+<!---->
+<!--```NASM-->
+<!--401224:	mov    DWORD PTR [rbp-0x18],0x0-->
+<!--40122b:	jmp    401241 <function+0x10b>-->
+<!--40122d:	mov    eax,DWORD PTR [rbp-0x18]-->
+<!--401230:	lea    ecx,[rax+rax*1]-->
+<!--401233:	mov    rax,QWORD PTR [rbp-0x38]-->
+<!--401237:	mov    edx,DWORD PTR [rbp-0x18]-->
+<!--40123a:	mov    DWORD PTR [rax+rdx*4],ecx-->
+<!--40123d:	add    DWORD PTR [rbp-0x18],0x1-->
+<!--401241:	mov    eax,DWORD PTR [rbp-0x18]-->
+<!--401244:	cmp    eax,DWORD PTR [rbp-0x44]-->
+<!--401247:	jb     40122d <function+0xf7>-->
+<!--401249:	mov    eax,DWORD PTR [rbp-0x44]-->
+<!--40124c:	lea    edx,[rax-0x1]-->
+<!--40124f:	mov    rax,QWORD PTR [rbp-0x38]-->
+<!--401253:	mov    edx,edx-->
+<!--401255:	mov    edx,DWORD PTR [rax+rdx*4]-->
+<!--401258:	mov    rax,QWORD PTR [rbp-0x38]-->
+<!--40125c:	mov    eax,DWORD PTR [rax]-->
+<!--40125e:	mov    esi,eax-->
+<!--401260:	mov    edi,0x40201e-->
+<!--401265:	mov    eax,0x0-->
+<!--40126a:	call   401030 <printf@plt>-->
+<!--```-->
+<!---->
+<!--```NASM-->
+<!--40126f:	mov    rsp,rbx-->
+<!--401272:	nop-->
+<!--401273:	mov    rbx,QWORD PTR [rbp-0x8]-->
+<!--401277:	leave-->
+<!--401278:	ret-->
+<!--```-->
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Local variables being stored on the stack is technically an implementation detail, the c standard only calls of local variables (auto variables) to be freed once there out of scope. In practice this is always done using the stack.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>For more details on why it should be 16 byte aligned see the following stack overflow post: <a href="https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment">https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
             </div>
         </article></main>
@@ -311,7 +982,7 @@ Variable sized arrays can be created like this:</p>
 
 
     
-    <script async src="http://localhost:1313/js/main.js" ></script>
+    <script src="https://martijnv.com/js/main.min.4ee188e1744c19816e95a540b2650ed9f033ea0371e74eac8e717355cfca8741.js" integrity="sha256-TuGI4XRMGYFulaVAsmUO2fAz6gNx506sjnFzVc/Kh0E="></script>
 
     
 

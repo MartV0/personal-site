@@ -1,5 +1,6 @@
 +++
 title = 'My projects'
+toc = false
 +++
 
 Here is a short list of some of my projects!

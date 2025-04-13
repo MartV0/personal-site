@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://martijnv.com/posts/variable_sized_on_stack/</loc>
+    <lastmod>2025-04-13T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://martijnv.com/</loc>
-    <lastmod>2025-02-07T20:57:52+01:00</lastmod>
+    <lastmod>2025-04-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://martijnv.com/posts/</loc>
-    <lastmod>2025-02-07T20:57:52+01:00</lastmod>
+    <lastmod>2025-04-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://martijnv.com/posts/hello-internet/</loc>
     <lastmod>2024-11-15T19:25:54+01:00</lastmod>

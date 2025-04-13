@@ -2,6 +2,7 @@
 title = 'Hello Internet!'
 date = 2024-11-15T19:25:54+01:00
 draft = false
+toc = false
 +++
 
 # Hello internet!
