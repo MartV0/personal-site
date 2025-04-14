@@ -68,7 +68,7 @@ How would we address `local_var2` in this case?
 Here we could simply do `rbp-6`. However, this would stop working once
 we create a different sized array.
 
-To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.
+To solve this we can, for example, store the offset of the array in another local variable, and calculate the address using that offset.
 | address | | |
 |-|-|-|
 | 10 | | <-- rsp, growing stack pointer|
@@ -101,7 +101,7 @@ add    r2, r3
 
 The above example is somewhat oversimplified, how it is actually done in practice
 is quite different.
-So let's have a look at how an actual compiler, compiles this simple c program:
+So let's have a look at how an actual compiler compiles this simple c program:
 ```C
 #include <stdio.h>
 
@@ -130,10 +130,10 @@ It was compiled using gcc on an x86_64 machine:
 ```
 
 The general strategy goes like this: the fixed size variables are located at the
-start of the stack frame, along with an additional variable for each array storing 
+start of the stack frame, along with an additional variable for each variable sized array storing 
 the starting position of the array.
 These variables can still be addressed using a single instruction.
-The variable sized arrays are then just put on top of the stack,
+The variable sized arrays are then just put on top of that on the stack,
 they can be addressed by using the additional variable.
 
 Let's have a look at the what the array allocation compiles to.
@@ -158,7 +158,7 @@ to assure the stack pointer stays 16-byte aligned.[^2]
 ```
 
 Next we save the starting address of the array, which is on the newly allocated stack space.
-Once again we have some fancy arithmetic here, this time it simply rounding up
+Once again we have some fancy arithmetic here, this time it is simply rounding up
 to the nearest 4 bytes, in order to make it 4 byte aligned.
 ```NASM
 40117f: mov    rax,rsp
@@ -273,17 +273,18 @@ In the end the final stack looks like this:
 | rbp | | | <-- rbp |
 
 ## Wrapping up
-I hope this clarifies the concept of variable stuff on the stack.
+I hope this clarifies the concept of variable sized data on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any questions feel free to reach out to me,
-through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually, but haven't gotten around to it yet.
+If you have any questions feel free to reach out to me! [^3]
 
 ---  
 
 [^1]: Local variables being stored on the stack is technically an implementation detail, the c standard only calls of local variables (auto variables) to be freed once there out of scope. In practice this is always done using the stack.
 [^2]: For more details on why it should be 16 byte aligned see the following stack overflow post: <https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment>.
+[^3]: Reaching out through mastodon is probably your best bet,
+I am also planning on adding a comment section eventually, but haven't gotten around to it yet.
+
 <!--## In practice-->
 <!---->
 <!--The above example is somewhat oversimplified, how it is actually done in practice-->

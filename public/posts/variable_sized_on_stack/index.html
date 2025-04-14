@@ -53,7 +53,7 @@
         },
         "datePublished": "2025-04-13",
         "description": "",
-        "wordCount":  1537 ,
+        "wordCount":  1548 ,
         "mainEntityOfPage": "True",
         "dateModified": "2025-04-13",
         "image": {
@@ -340,7 +340,7 @@ the memory address increases, so in the opposite direction to which the stack gr
 <p>How would we address <code>local_var2</code> in this case?
 Here we could simply do <code>rbp-6</code>. However, this would stop working once
 we create a different sized array.</p>
-<p>To solve this we can store the offset of the array in another local variable, and calculate the address using that offset.</p>
+<p>To solve this we can, for example, store the offset of the array in another local variable, and calculate the address using that offset.</p>
 <table>
 <thead>
 <tr>
@@ -412,7 +412,7 @@ we create a different sized array.</p>
 </span></span></code></pre></div><h2 id="in-practice">In practice</h2>
 <p>The above example is somewhat oversimplified, how it is actually done in practice
 is quite different.
-So let&rsquo;s have a look at how an actual compiler, compiles this simple c program:</p>
+So let&rsquo;s have a look at how an actual compiler compiles this simple c program:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">function</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">size</span><span class="p">){</span>
@@ -435,10 +435,10 @@ So let&rsquo;s have a look at how an actual compiler, compiles this simple c pro
 </span></span></code></pre></div><p>It was compiled using gcc on an x86_64 machine:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; gcc var.c -O0
 </span></span></code></pre></div><p>The general strategy goes like this: the fixed size variables are located at the
-start of the stack frame, along with an additional variable for each array storing
+start of the stack frame, along with an additional variable for each variable sized array storing
 the starting position of the array.
 These variables can still be addressed using a single instruction.
-The variable sized arrays are then just put on top of the stack,
+The variable sized arrays are then just put on top of that on the stack,
 they can be addressed by using the additional variable.</p>
 <p>Let&rsquo;s have a look at the what the array allocation compiles to.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="n">arr</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
@@ -455,7 +455,7 @@ to assure the stack pointer stays 16-byte aligned.<sup id="fnref:2"><a href="#fn
 </span></span><span class="line"><span class="cl"><span class="err">401178:</span> <span class="nf">imul</span>   <span class="nb">rax</span><span class="p">,</span><span class="nb">rax</span><span class="p">,</span><span class="mh">0x10</span> <span class="c1">; rax = rax * 16</span>
 </span></span><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">c:</span> <span class="nf">sub</span>    <span class="nb">rsp</span><span class="p">,</span><span class="nb">rax</span> <span class="c1">; grow stack by previously calculated size</span>
 </span></span></code></pre></div><p>Next we save the starting address of the array, which is on the newly allocated stack space.
-Once again we have some fancy arithmetic here, this time it simply rounding up
+Once again we have some fancy arithmetic here, this time it is simply rounding up
 to the nearest 4 bytes, in order to make it 4 byte aligned.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="err">40117</span><span class="nl">f:</span> <span class="nf">mov</span>    <span class="nb">rax</span><span class="p">,</span><span class="nb">rsp</span>
 </span></span><span class="line"><span class="cl"><span class="err">401182:</span> <span class="nf">add</span>    <span class="nb">rax</span><span class="p">,</span><span class="mh">0x3</span> <span class="c1">; rax = rsp + 3</span>
@@ -692,12 +692,10 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </tbody>
 </table>
 <h2 id="wrapping-up">Wrapping up</h2>
-<p>I hope this clarifies the concept of variable stuff on the stack.
+<p>I hope this clarifies the concept of variable sized data on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any questions feel free to reach out to me,
-through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually, but haven&rsquo;t gotten around to it yet.</p>
+If you have any questions feel free to reach out to me! <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
 <hr>
 <!--## In practice-->
 <!---->
@@ -917,6 +915,10 @@ I am also planning on adding a comment section eventually, but haven&rsquo;t got
 </li>
 <li id="fn:2">
 <p>For more details on why it should be 16 byte aligned see the following stack overflow post: <a href="https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment">https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Reaching out through mastodon is probably your best bet,
+I am also planning on adding a comment section eventually, but haven&rsquo;t gotten around to it yet.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
