@@ -53,7 +53,7 @@
         },
         "datePublished": "2025-04-13",
         "description": "",
-        "wordCount":  1548 ,
+        "wordCount":  1538 ,
         "mainEntityOfPage": "True",
         "dateModified": "2025-04-13",
         "image": {
@@ -74,8 +74,7 @@
     <meta property="og:url" content="https://martijnv.com/posts/variable_sized_on_stack/">
   <meta property="og:site_name" content="Martijn&#39;s blog">
   <meta property="og:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta property="og:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. Local variables are offset by some constant value relative to the stack frame.
-address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
+  <meta property="og:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame, local variables are offset by some constant value relative to this stack frame. You can see the stack frame as the current function context/ local variables.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -87,8 +86,7 @@ address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 loc
     
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="How variable sized arrays work: non-fixed size data on the stack.">
-  <meta name="twitter:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame. Local variables are offset by some constant value relative to the stack frame.
-address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 local_var1 14 &lt;– rbp, the stack frame 💡 Note that the stack grows downwards, meaning the address of the top of the stack decreases as variables are stored on the stack.">
+  <meta name="twitter:description" content="Let’s first give some background on why I wanted to create this post. Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very easy. The rbp register stores a pointer to an address on the stack, called the stack frame, local variables are offset by some constant value relative to this stack frame. You can see the stack frame as the current function context/ local variables.">
 
 
     
@@ -215,8 +213,9 @@ stroke-linejoin="round" class="feather feather-home">
             <div class="page-content">
                 <p>Let&rsquo;s first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
-easy. The <code>rbp</code> register stores a pointer to an address on the stack, called the stack frame.
-Local variables are offset by some constant value relative to the stack frame.</p>
+easy. The <code>rbp</code> register stores a pointer to an address on the stack, called the stack frame,
+local variables are offset by some constant value relative to this stack frame.
+You can see the stack frame as the current function context/ local variables.</p>
 <!--<style>-->
 <!--table tr th:empty {-->
 <!--  display: none;-->
@@ -269,7 +268,7 @@ can be done like this:</p>
 </span></span><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nv">r2</span><span class="p">,</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r1</span><span class="p">,</span> <span class="nv">r2</span>
 </span></span></code></pre></div><p>For addressing like this to work the variables on the stack need to be fixed size,
-because the offsets relative to the stack frame are hard coded at compile time.</p>
+because the offsets relative to the stack frame are hard-coded at compile time.</p>
 <h2 id="variable-sized-arrays-in-c">Variable sized arrays in C</h2>
 <p>Having heard in some places that variables on the stack are actually exclusively fixed size,
 I was left very confused after discovering variable sized arrays in C.
@@ -406,7 +405,7 @@ we create a different sized array.</p>
 </span></span><span class="line"><span class="cl"><span class="nf">add</span>    <span class="nv">r2</span><span class="p">,</span> <span class="nv">r3</span>
 </span></span></code></pre></div><h2 id="in-practice">In practice</h2>
 <p>The above example is somewhat oversimplified, how it is actually done in practice
-is quite different.
+is a bit different.
 So let&rsquo;s have a look at how an actual compiler compiles this simple c program:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
@@ -430,9 +429,9 @@ So let&rsquo;s have a look at how an actual compiler compiles this simple c prog
 </span></span></code></pre></div><p>It was compiled using gcc on an x86_64 machine:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; gcc var.c -O0
 </span></span></code></pre></div><p>The general strategy goes like this: the fixed size variables are located at the
-start of the stack frame, along with an additional variable for each variable sized array storing
+start of the stack frame, along with an additional variable for each array storing
 the starting position of the array.
-These variables can still be addressed using a single instruction.
+The fixed size variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of that on the stack,
 they can be addressed by using the additional variable.</p>
 <p>Let&rsquo;s have a look at the what the array allocation compiles to.</p>
@@ -690,7 +689,7 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 <p>I hope this clarifies the concept of variable sized data on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any questions feel free to reach out to me! <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+If you have any questions feel leave a comment or sent me a dm on mastodon!</p>
 <hr>
 <!--## In practice-->
 <!---->
@@ -910,10 +909,6 @@ If you have any questions feel free to reach out to me! <sup id="fnref:3"><a hre
 </li>
 <li id="fn:2">
 <p>For more details on why it should be 16 byte aligned see the following stack overflow post: <a href="https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment">https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3">
-<p>Reaching out through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually, but haven&rsquo;t gotten around to it yet.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>

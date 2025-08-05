@@ -6,8 +6,10 @@ draft = false
 
 Let's first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
-easy. The `rbp` register stores a pointer to an address on the stack, called the stack frame.
-Local variables are offset by some constant value relative to the stack frame.
+easy. The `rbp` register stores a pointer to an address on the stack, called the stack frame,
+local variables are offset by some constant value relative to this stack frame.
+You can see the stack frame as the current function context/ local variables.
+
 
 <!--<style>-->
 <!--table tr th:empty {-->
@@ -37,7 +39,7 @@ add    r1, r2
 ```
 
 For addressing like this to work the variables on the stack need to be fixed size,
-because the offsets relative to the stack frame are hard coded at compile time.
+because the offsets relative to the stack frame are hard-coded at compile time.
 
 ## Variable sized arrays in C
 Having heard in some places that variables on the stack are actually exclusively fixed size,
@@ -100,7 +102,7 @@ add    r2, r3
 ## In practice
 
 The above example is somewhat oversimplified, how it is actually done in practice
-is quite different.
+is a bit different.
 So let's have a look at how an actual compiler compiles this simple c program:
 ```C
 #include <stdio.h>
@@ -130,9 +132,9 @@ It was compiled using gcc on an x86_64 machine:
 ```
 
 The general strategy goes like this: the fixed size variables are located at the
-start of the stack frame, along with an additional variable for each variable sized array storing 
+start of the stack frame, along with an additional variable for each array storing 
 the starting position of the array.
-These variables can still be addressed using a single instruction.
+The fixed size variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of that on the stack,
 they can be addressed by using the additional variable.
 
@@ -276,14 +278,12 @@ In the end the final stack looks like this:
 I hope this clarifies the concept of variable sized data on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any questions feel free to reach out to me! [^3]
+If you have any questions feel leave a comment or sent me a dm on mastodon!
 
 ---  
 
 [^1]: Local variables being stored on the stack is technically an implementation detail, the c standard only calls of local variables (auto variables) to be freed once there out of scope. In practice this is always done using the stack.
 [^2]: For more details on why it should be 16 byte aligned see the following stack overflow post: <https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment>.
-[^3]: Reaching out through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually, but haven't gotten around to it yet.
 
 <!--## In practice-->
 <!---->

@@ -16,8 +16,9 @@
       
       <description>&lt;p&gt;Let&amp;rsquo;s first give some background on why I wanted to create this post.
 Local variables are stored on the stack, these variables are usually fixed size, which makes addressing them very
-easy. The &lt;code&gt;rbp&lt;/code&gt; register stores a pointer to an address on the stack, called the stack frame.
-Local variables are offset by some constant value relative to the stack frame.&lt;/p&gt;
+easy. The &lt;code&gt;rbp&lt;/code&gt; register stores a pointer to an address on the stack, called the stack frame,
+local variables are offset by some constant value relative to this stack frame.
+You can see the stack frame as the current function context/ local variables.&lt;/p&gt;
 &lt;!--&lt;style&gt;--&gt;
 &lt;!--table tr th:empty {--&gt;
 &lt;!--  display: none;--&gt;
@@ -70,7 +71,7 @@ can be done like this:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;r2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rbp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;r1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;r2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For addressing like this to work the variables on the stack need to be fixed size,
-because the offsets relative to the stack frame are hard coded at compile time.&lt;/p&gt;
+because the offsets relative to the stack frame are hard-coded at compile time.&lt;/p&gt;
 &lt;h2 id=&#34;variable-sized-arrays-in-c&#34;&gt;Variable sized arrays in C&lt;/h2&gt;
 &lt;p&gt;Having heard in some places that variables on the stack are actually exclusively fixed size,
 I was left very confused after discovering variable sized arrays in C.
@@ -207,7 +208,7 @@ we create a different sized array.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;add&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;r2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;r3&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;in-practice&#34;&gt;In practice&lt;/h2&gt;
 &lt;p&gt;The above example is somewhat oversimplified, how it is actually done in practice
-is quite different.
+is a bit different.
 So let&amp;rsquo;s have a look at how an actual compiler compiles this simple c program:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -231,9 +232,9 @@ So let&amp;rsquo;s have a look at how an actual compiler compiles this simple c 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It was compiled using gcc on an x86_64 machine:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; gcc var.c -O0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The general strategy goes like this: the fixed size variables are located at the
-start of the stack frame, along with an additional variable for each variable sized array storing
+start of the stack frame, along with an additional variable for each array storing
 the starting position of the array.
-These variables can still be addressed using a single instruction.
+The fixed size variables can still be addressed using a single instruction.
 The variable sized arrays are then just put on top of that on the stack,
 they can be addressed by using the additional variable.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s have a look at the what the array allocation compiles to.&lt;/p&gt;
@@ -491,7 +492,7 @@ At the address &lt;code&gt;arr_begin + i * (size of int)&lt;/code&gt; the value 
 &lt;p&gt;I hope this clarifies the concept of variable sized data on the stack.
 I certainly really enjoyed looking at the disassembled code and figuring out how it works,
 I learned a lot about assembly and compilers in the process.
-If you have any questions feel free to reach out to me! &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+If you have any questions feel leave a comment or sent me a dm on mastodon!&lt;/p&gt;
 &lt;hr&gt;
 &lt;!--## In practice--&gt;
 &lt;!----&gt;
@@ -711,10 +712,6 @@ If you have any questions feel free to reach out to me! &lt;sup id=&#34;fnref:3&
 &lt;/li&gt;
 &lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;For more details on why it should be 16 byte aligned see the following stack overflow post: &lt;a href=&#34;https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment&#34;&gt;https://stackoverflow.com/questions/49391001/why-does-the-x86-64-amd64-system-v-abi-mandate-a-16-byte-stack-alignment&lt;/a&gt;.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li id=&#34;fn:3&#34;&gt;
-&lt;p&gt;Reaching out through mastodon is probably your best bet,
-I am also planning on adding a comment section eventually, but haven&amp;rsquo;t gotten around to it yet.&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
