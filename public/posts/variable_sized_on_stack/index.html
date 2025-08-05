@@ -68,7 +68,7 @@
     </script>
 
 
-<meta name="generator" content="Hugo 0.131.0">
+<meta name="generator" content="Hugo 0.148.2">
 
     
     <meta property="og:url" content="https://martijnv.com/posts/variable_sized_on_stack/">
@@ -118,9 +118,6 @@ address 10 &lt;– rsp, growing stack pointer 11 local_var3 12 local_var2 13 loc
 
     
     
-  
-
-
     
 </head>
 <body data-theme = "auto" class="notransition">
@@ -226,45 +223,44 @@ Local variables are offset by some constant value relative to the stack frame.</
 <!--}-->
 <!--</style>-->
 <table>
-<thead>
-<tr>
-<th>address</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td></td>
-<td>&lt;&ndash; rsp, growing stack pointer</td>
-</tr>
-<tr>
-<td>11</td>
-<td>local_var3</td>
-<td></td>
-</tr>
-<tr>
-<td>12</td>
-<td>local_var2</td>
-<td></td>
-</tr>
-<tr>
-<td>13</td>
-<td>local_var1</td>
-<td></td>
-</tr>
-<tr>
-<td>14</td>
-<td></td>
-<td>&lt;&ndash; rbp, the stack frame</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>address</th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>10</td>
+          <td></td>
+          <td>&lt;&ndash; rsp, growing stack pointer</td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td>local_var3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td>local_var2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>local_var1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td></td>
+          <td>&lt;&ndash; rbp, the stack frame</td>
+      </tr>
+  </tbody>
 </table>
 <blockquote>
 <p>💡 Note that the stack grows downwards, meaning the address of the top of the stack
-decreases as variables are stored on the stack.</p>
-</blockquote>
+decreases as variables are stored on the stack.</p></blockquote>
 <p>Addressing these local variables can be done using a single instruction, and thus
 is very fast.
 For example moving <code>local_var1</code> and <code>local_var3</code> into registers and adding them
@@ -283,119 +279,118 @@ Variable sized arrays can be created like this:</p>
 <p>Well how does this work? Wouldn&rsquo;t this mess with the fixed offset of the local variables?
 Indeed, treating it like any other fixed size local variable would not work.</p>
 <table>
-<thead>
-<tr>
-<th>address</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td></td>
-<td>&lt;&ndash; rsp, growing stack pointer</td>
-</tr>
-<tr>
-<td>11</td>
-<td>local_var2</td>
-<td></td>
-</tr>
-<tr>
-<td>12</td>
-<td>array_item1</td>
-<td></td>
-</tr>
-<tr>
-<td>13</td>
-<td>array_item2</td>
-<td></td>
-</tr>
-<tr>
-<td>14</td>
-<td>array_item3</td>
-<td></td>
-</tr>
-<tr>
-<td>15</td>
-<td>array_item4</td>
-<td></td>
-</tr>
-<tr>
-<td>16</td>
-<td>local_var1</td>
-<td></td>
-</tr>
-<tr>
-<td>17</td>
-<td></td>
-<td>&lt;&ndash; rbp, the stack frame</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>address</th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>10</td>
+          <td></td>
+          <td>&lt;&ndash; rsp, growing stack pointer</td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td>local_var2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td>array_item1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>array_item2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td>array_item3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td>array_item4</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td>local_var1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td></td>
+          <td>&lt;&ndash; rbp, the stack frame</td>
+      </tr>
+  </tbody>
 </table>
 <blockquote>
 <p>💡 Note that arrays are addressed upward, so as the index increases
-the memory address increases, so in the opposite direction to which the stack grows.</p>
-</blockquote>
+the memory address increases, so in the opposite direction to which the stack grows.</p></blockquote>
 <p>How would we address <code>local_var2</code> in this case?
 Here we could simply do <code>rbp-6</code>. However, this would stop working once
 we create a different sized array.</p>
 <p>To solve this we can, for example, store the offset of the array in another local variable, and calculate the address using that offset.</p>
 <table>
-<thead>
-<tr>
-<th>address</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td></td>
-<td>&lt;&ndash; rsp, growing stack pointer</td>
-</tr>
-<tr>
-<td>11</td>
-<td>local_var2</td>
-<td></td>
-</tr>
-<tr>
-<td>12</td>
-<td>array_item1</td>
-<td></td>
-</tr>
-<tr>
-<td>13</td>
-<td>array_item2</td>
-<td></td>
-</tr>
-<tr>
-<td>14</td>
-<td>array_item3</td>
-<td></td>
-</tr>
-<tr>
-<td>15</td>
-<td>array_item4</td>
-<td></td>
-</tr>
-<tr>
-<td>16</td>
-<td>local_var1</td>
-<td></td>
-</tr>
-<tr>
-<td>17</td>
-<td>array_offset</td>
-<td>(-6)</td>
-</tr>
-<tr>
-<td>18</td>
-<td></td>
-<td>&lt;&ndash; rbp, the stack frame</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>address</th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>10</td>
+          <td></td>
+          <td>&lt;&ndash; rsp, growing stack pointer</td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td>local_var2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td>array_item1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td>array_item2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td>array_item3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td>array_item4</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td>local_var1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td>array_offset</td>
+          <td>(-6)</td>
+      </tr>
+      <tr>
+          <td>18</td>
+          <td></td>
+          <td>&lt;&ndash; rbp, the stack frame</td>
+      </tr>
+  </tbody>
 </table>
 <p>If we now wanted to, for example, add <code>array_item1</code> and <code>local_var2</code> we could do it like this.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-NASM" data-lang="NASM"><span class="line"><span class="cl"><span class="c1">; move address of array_item1 into r1</span>
@@ -464,40 +459,40 @@ to the nearest 4 bytes, in order to make it 4 byte aligned.</p>
 </span></span><span class="line"><span class="cl"><span class="err">40118</span><span class="nl">e:</span> <span class="nf">mov</span>    <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">rbp</span><span class="o">-</span><span class="mh">0x28</span><span class="p">],</span><span class="nb">rax</span> <span class="c1">; save address on the stack</span>
 </span></span></code></pre></div><p>Our stack now looks like this:</p>
 <table>
-<thead>
-<tr>
-<th>Address</th>
-<th>Content</th>
-<th>Value</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rbp - 0x58</td>
-<td>arr begin</td>
-<td></td>
-<td>&lt;&ndash; rsp</td>
-</tr>
-<tr>
-<td>rbp - 0x44</td>
-<td>size</td>
-<td>3</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x28</td>
-<td>address of arr</td>
-<td>rbp - 0x58</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp</td>
-<td></td>
-<td></td>
-<td>&lt;&ndash; rbp</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Address</th>
+          <th>Content</th>
+          <th>Value</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>rbp - 0x58</td>
+          <td>arr begin</td>
+          <td></td>
+          <td>&lt;&ndash; rsp</td>
+      </tr>
+      <tr>
+          <td>rbp - 0x44</td>
+          <td>size</td>
+          <td>3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x28</td>
+          <td>address of arr</td>
+          <td>rbp - 0x58</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp</td>
+          <td></td>
+          <td></td>
+          <td>&lt;&ndash; rbp</td>
+      </tr>
+  </tbody>
 </table>
 <p>With the memory for the list allocated now, assigning values to the array is quite trivial.
 At the address <code>arr_begin + i * (size of int)</code> the value is written.</p>
@@ -519,58 +514,58 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </span></span><span class="line"><span class="cl"><span class="err">4011</span><span class="nl">b2:</span>	<span class="nf">jb</span>     <span class="mi">40119</span><span class="nv">b</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0x65</span><span class="o">&gt;</span>    <span class="c1">; jump to loop body if i &lt; size</span>
 </span></span></code></pre></div><p>Our stack now looks like this:</p>
 <table>
-<thead>
-<tr>
-<th>Address</th>
-<th>Content</th>
-<th>Value</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rbp - 0x58</td>
-<td>arr[0]</td>
-<td>0</td>
-<td>&lt;&ndash; rsp</td>
-</tr>
-<tr>
-<td>rbp - 0x54</td>
-<td>arr[1]</td>
-<td>1</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x50</td>
-<td>arr[2]</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x44</td>
-<td>size</td>
-<td>3</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x28</td>
-<td>address of arr</td>
-<td>rbp - 0x58</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x14</td>
-<td>i</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp</td>
-<td></td>
-<td></td>
-<td>&lt;&ndash; rbp</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Address</th>
+          <th>Content</th>
+          <th>Value</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>rbp - 0x58</td>
+          <td>arr[0]</td>
+          <td>0</td>
+          <td>&lt;&ndash; rsp</td>
+      </tr>
+      <tr>
+          <td>rbp - 0x54</td>
+          <td>arr[1]</td>
+          <td>1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x50</td>
+          <td>arr[2]</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x44</td>
+          <td>size</td>
+          <td>3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x28</td>
+          <td>address of arr</td>
+          <td>rbp - 0x58</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x14</td>
+          <td>i</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp</td>
+          <td></td>
+          <td></td>
+          <td>&lt;&ndash; rbp</td>
+      </tr>
+  </tbody>
 </table>
 <p>The second allocation of the array works identically to the first one:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">unsigned</span> <span class="n">arr2</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
@@ -608,88 +603,88 @@ At the address <code>arr_begin + i * (size of int)</code> the value is written.<
 </span></span><span class="line"><span class="cl"><span class="err">401247:</span>	<span class="nf">jb</span>     <span class="mi">40122</span><span class="nv">d</span> <span class="o">&lt;</span><span class="nv">function</span><span class="o">+</span><span class="mh">0xf7</span><span class="o">&gt;</span>
 </span></span></code></pre></div><p>In the end the final stack looks like this:</p>
 <table>
-<thead>
-<tr>
-<th>Address</th>
-<th>Content</th>
-<th>Value</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rbp - 0x68</td>
-<td>arr2[0]</td>
-<td>0</td>
-<td>&lt;&ndash; rsp</td>
-</tr>
-<tr>
-<td>rbp - 0x64</td>
-<td>arr2[1]</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x60</td>
-<td>arr2[2]</td>
-<td>4</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x58</td>
-<td>arr[0]</td>
-<td>0</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x54</td>
-<td>arr[1]</td>
-<td>1</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x50</td>
-<td>arr[2]</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x44</td>
-<td>size</td>
-<td>3</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x38</td>
-<td>address of arr2</td>
-<td>rbp - 0x68</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x28</td>
-<td>address of arr</td>
-<td>rbp - 0x58</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x18</td>
-<td>i (second loop)</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp - 0x14</td>
-<td>i (first loop)</td>
-<td>2</td>
-<td></td>
-</tr>
-<tr>
-<td>rbp</td>
-<td></td>
-<td></td>
-<td>&lt;&ndash; rbp</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Address</th>
+          <th>Content</th>
+          <th>Value</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>rbp - 0x68</td>
+          <td>arr2[0]</td>
+          <td>0</td>
+          <td>&lt;&ndash; rsp</td>
+      </tr>
+      <tr>
+          <td>rbp - 0x64</td>
+          <td>arr2[1]</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x60</td>
+          <td>arr2[2]</td>
+          <td>4</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x58</td>
+          <td>arr[0]</td>
+          <td>0</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x54</td>
+          <td>arr[1]</td>
+          <td>1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x50</td>
+          <td>arr[2]</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x44</td>
+          <td>size</td>
+          <td>3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x38</td>
+          <td>address of arr2</td>
+          <td>rbp - 0x68</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x28</td>
+          <td>address of arr</td>
+          <td>rbp - 0x58</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x18</td>
+          <td>i (second loop)</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp - 0x14</td>
+          <td>i (first loop)</td>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>rbp</td>
+          <td></td>
+          <td></td>
+          <td>&lt;&ndash; rbp</td>
+      </tr>
+  </tbody>
 </table>
 <h2 id="wrapping-up">Wrapping up</h2>
 <p>I hope this clarifies the concept of variable sized data on the stack.
@@ -924,7 +919,15 @@ I am also planning on adding a comment section eventually, but haven&rsquo;t got
 </div>
 
             </div>
-        </article></main>
+        </article>
+<script data-isso="//martijnv.com/comments/"
+        src="//martijnv.com/comments/js/embed.min.js"></script>
+
+<section id="isso-thread">
+    <noscript>Javascript needs to be activated to view comments.</noscript>
+</section>
+
+</main>
 </div>
 <footer class="footer">
     <span class="footer_item"> </span>
